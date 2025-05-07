@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="../CSS/AdminPage_Template_Style.css">
+        <!-- <link rel="stylesheet" href="../CSS/AdminPage_Template_Teams_Style.css"> -->
+        <link rel="icon" href="../images/chathaven_logo.png">
+        <title>ChatHaven/Admin Page</title>
+    </head>
+    <body>
+        <div id="admin-page-header">
+            {TT}
+            <hr>
+        </div>
+        
+        <div id="teams-column">
+                <img src="../images/friends.png" class="friends-icon" href="#menu" id="friends-icon">
+                    <div class="menu" id="menu">
+                        <div id="menu-name"><br>Chat Haven<br><hr><br></div>
+                        <a href="index.html" id="link">
+                            <div class="general-buttons" id="home" >
+                                <p>Dashboard</p><img src="../images/arrow.png" id="arrow">
+                            </div><br>
+                        </a>
+                        <a href="#" id="link">
+                            <div class="general-buttons" id="team" title="Manage Teams in channels">
+                                <p>Teams</p><img src="../images/arrow.png" id="arrow2">
+                            </div><br>
+                        </a>
+                        
+                    </div>
+
+                <div class="line-under-friends-icon"><hr></div>
+                <div id="teams-container">
+                    <!-- <a href="AdminPage_Template_Teams.html" id="link-to-dash">
+                        <div class="team-profile"><img src="../images/minecraft-dirt.jpg" id="team-bar-icon"></div>
+                    </a> -->
+                </div>
+                    <div class="line-under-friends-icon"><hr></div>
+                    <!-- <a href="AdminPage_AddTeams.html" id="link"> -->
+                        <div class="team-profile" id="add-teams"> + </div>
+                    <!-- </a> -->
+
+                    <div class="team-profile"> <img src="../images/chathaven_logo.png" class="profile-icon" id="profile-info"> 
+                        <div class="profile-name">Profile</div>
+                    </div>
+                
+        </div>  
+        
+        <div class="custom-body">
+            <div id="custom-team-container">            
+                <div class="users-channels">
+                    <div id="">
+                        <!-- <img src="../images/minecraft-dirt.jpg" id="avatar"> <p class="teamname" >Minecraft</p> -->
+                    </div>
+                </div>
+            </div>
+            <!-- <iframe src="../HTML/ChatHaven_Home.html" id="team-listin-body"></iframe> -->
+        </div>
+
+        <div id="pop-up">
+            <div id="profile-pop-up">
+                Admin Name<hr><br>
+                <div id="inside-pop-up">                
+                    <label for="usernameInfo"> User Name: </label>
+                        <div id="usernameInfo" style="color: rgb(2, 247, 2);">user name</div><br>
+                    <label for="emailInfo"> email: </label>
+                        <div id="emailInfo">email</div><br><br><br>
+                    <div class="general-buttons" id="back2" style = "top: -25px; position: relative">
+                        Back
+                    </div>
+                </div>
+                <div id="team-addition-form">
+                
+                    <div id="TeamNameForm" >
+                            <label for="team-name" id="NameInput-placeholder" style="left: 50px;">User Name:</label>
+                                <input id="team-name" placeholder="Name" style="padding-left: 45px;"><br><br>
+                                <div class="general-buttons" id="create-team-button">
+                                    Add User
+                                </div>
+                                <div class="general-buttons" id="back" style = "top: -25px; position: relative">
+                                    Back
+                                </div>
+                                
+                            <!-- <a href="../HTML/AdminPage_Template.html" id="link"> -->
+                                
+                            <!-- </a> -->
+                            <!-- <a href="../HTML/AdminPage_Template.html">
+                                <div class="general-buttons" id="create-team-button">
+                                    Create Team
+                                </div>
+                            </a> -->
+                    </div>
+                    
+                    
+                    </div>
+            </div>
+        </div>
+
+        <script src="../JS/DMs.js"></script>
+    </body>
+</html>
