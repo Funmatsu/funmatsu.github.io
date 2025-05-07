@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=0.75, maximum-scale=0.75, minimum-scale=0.75, user-scalable=no">
+        <link rel="stylesheet" href="../CSS/AdminPage_Template_Teams_Style.css">
+        <link rel="icon" href="../images/chathaven_logo.png">
+        
+        <title>ChatHaven/Admin Page</title>
+    </head>
+
+    <body>
+        <div id="admin-page-header">
+            {TT}
+            <!-- <img src="../images/friends.png" id="title-users"> -->
+            <hr>
+        </div>
+            
+                <div id="menu">
+                    <div id="team-info"><br>(Team Name)<br><hr><br></div>
+
+                    <!-- <div class="general-button" id="channel">
+                        {Channel2}
+                        <a href="#" id="link">
+                            <img src="../images/addusermale.png" id="adduser" title="Add a user in current channel">
+                        </a>
+                        <img src="../images/settingsicon.png" id="arrow1" title="settings">
+                    </div><br> -->
+
+                    <div class="general-button" id="create-channel-button">
+                        Create Channel
+                    </div>
+                    
+                    <a href="#" id="link"><div class="general-button" id="back" title="manage channels as an admin">
+                        Back<img src="../images/arrow.png" id="arrow3">
+                    </div></a>
+                </div>
+        
+            <div class="custom-body">
+                <div id="div-custom-body"></div>
+                <input id="text-bar" placeholder="message">
+                
+            </div>
+            <div id="pop-up">
+                <div id="friend-addition-form">
+                    <div id="NameForm" >
+                        <label for="username">Username: </label>
+                        <input id="NameInput-useradd" placeholder="Name"><button id="search-users">Search</button><br><br>
+                        <label for="dropdown">Choose a role: </label>
+                            <select id="RoleInput">
+                                <option value="Admin">Admin</option>
+                                <option value="Regular">Regular</option>
+                            </select><br><br>
+                        <label for="channel-choice" id="channel-choice">Channel to assign:</label>
+                        <input id="dest-channelInput" placeholder="Channel to place user..."><br><br>
+
+                        <label for="channel-choice" id="channel-contribution">Estimated contribution:</label>
+                        <input id="dest-channelContrib" placeholder="How will you participate in this team...">
+                        <div class="general-button" id="add-user-button">
+                            Add User
+                        </div>
+                    </div>
+                </div>
+                <div id="team-addition-form">
+                
+                    <div id="profile-pop-up">
+                            <label for="team-name" id="NameInput-placeholder" style="left: 50px;">Channel Name:</label>
+                                <input id="team-name" placeholder="Name" style="padding-left: 45px;"><br><br>
+                                <div class="general-button" id="create-team-button">
+                                    Create Channel
+                                </div>
+                                <div class="general-button" id="back1" style = "top: 25px; position: relative" onclick="document.getElementById('pop-up').style.display = 'none';">
+                                    Back
+                                </div>
+                                
+                    </div>
+                    </div>
+                    
+                    </div>
+            </div>
+            
+        </div>
+        
+        <script>
+            
+            // let storedMsg;
+            // setTimeout(() => {
+            //     storedMsg = document.getElementById("text-bar").value;
+            //     location.reload();
+            // }, 5000); // ✅ Reloads every 5 seconds
+
+            // document.addEventListener("DOMContentLoaded", () => {
+            //     document.getElementById("text-bar").value = storedMsg;
+            // });
+            
+            const adminPageHeader = document.getElementById("admin-page-header");
+            const params = new URLSearchParams(window.location.search);
+            let username = params.get("username");
+            let teamname = params.get("teamname");
+            let channel  = params.get("channel" );
+
+            const ws = new WebSocket("ws://localhost:8080"); // ✅ Connect to WebSocket server
+
+            ws.onmessage = async (event) => {
+                console.log("📥 Incoming message:", event.data);
+                const receivedMessage = await event.data;
+                const parsedMessage = JSON.parse(receivedMessage); // ✅ Parse message as JSON
+                document.getElementById("text-bar").value = parsedMessage.message;
+                
+                sendMsg();
+                window.location.reload();
+
+                document.getElementById("text-bar").value = "";
+                scrollToBottom();
+                
+            };
+
+
+            document.getElementById("text-bar").addEventListener("keypress", function(event) {  
+                let msgString = `<strong>${username}:  </strong>` + document.getElementById("text-bar").value + `     <small>${new Date().toLocaleString()}</small>`;
+                if (event.key === "Enter" && document.getElementById("text-bar").value !== "") {
+                    ws.send(JSON.stringify({
+                        username: username,  // ✅ Replace with actual logged-in user
+                        teamname: teamname,
+                        message: msgString
+                     })); // ✅ Send message via WebSocket
+                    storeToDB(msgString);
+                    document.getElementById("text-bar").value = "";
+                }
+            });
+
+            document.getElementById("admin-page-header").innerHTML = teamname + " | " + channel;
+            document.getElementById("team-info").innerHTML = `You: <p style='color: lightgreen;'>${username}<br><hr></p>`;
+
+            // document.getElementById("text-bar").addEventListener("keypress", function(event) {
+            //     if (event.key === "Enter" && document.getElementById("text-bar").value !== "") {
+            //         generateDiv();S
+            //         scrollToBottom();
+            //     }
+            //     // document.getElementByClassName("custom-body").innnerText += "<br>";
+            // });
+            
+            function generateDiv() {
+                var newDiv = document.createElement("div");
+                const message = document.getElementById("text-bar").value;
+                console.log("🚀 Sending POST request to backend at:", new Date().toISOString());
+                fetch("http://localhost:3000/messages_teams", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ 
+                        username, 
+                        teamname, 
+                        message: document.getElementById("text-bar").value // ✅ Only the message content
+                    })
+                })
+
+                newDiv.innerHTML = document.getElementById("text-bar").value;
+
+                newDiv.style.backgroundColor = "rgb(44, 121, 202)";
+                newDiv.style.color = "white";
+                newDiv.style.width = "fit-content";
+                newDiv.style.textAlign = "right";
+                newDiv.style.position = "relative";
+                newDiv.style.borderRadius = "10px";
+                newDiv.style.padding = "15px";
+                newDiv.style.margin = "10px";
+                newDiv.className = "generated";
+                document.querySelector("#div-custom-body").appendChild(newDiv);
+                document.getElementById("text-bar").value = "";
+            }
+
+            function sendMsg() {
+                var newDiv = document.createElement("div");
+                const message = document.getElementById("text-bar").value;
+
+                newDiv.innerHTML = message;
+                newDiv.style.backgroundColor = "rgb(44, 121, 202)";
+                newDiv.style.color = "white";
+                newDiv.style.width = "fit-content";
+                newDiv.style.textAlign = "right";
+                newDiv.style.position = "relative";
+                newDiv.style.borderRadius = "10px";
+                newDiv.style.padding = "15px";
+                newDiv.style.margin = "10px";
+                
+                newDiv.className = "generated";
+                document.querySelector("#div-custom-body").appendChild(newDiv);
+            }
+
+            function storeToDB(msg){
+                const message = msg;
+                console.log("🚀 Sending POST request to backend at:", new Date().toISOString());
+                fetch("http://localhost:3000/messages_teams", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ 
+                        username, 
+                        teamname, 
+                        channel,
+                        message: message // ✅ Only the message content
+                    })
+                })
+
+            }
+
+            function scrollToBottom() {
+                var scrollableDiv = document.getElementById("div-custom-body");
+                scrollableDiv.scrollTop = scrollableDiv.scrollHeight;
+            }
+            
+            function clearMessages() {
+                fetch("http://localhost:3000/messages", {
+                    method: "DELETE",
+                })
+                .then(response => response.json())
+                .then(data => console.log(data.message)) // Confirm deletion
+                .catch(error => console.error("❌ Error:", error));
+            }
+
+            function fetchMessages() {
+                fetch(`http://localhost:3000/messages_teams/${teamname}/${channel}`)
+                .then(response => response.text()) // ✅ Log raw response before parsing
+                .then(text => {
+                    console.log("📥 Raw server response:", text);
+                    return JSON.parse(text); // ✅ Parse only if it's valid JSON
+                })
+                .then(data => {
+                    console.log("✅ Data Type:", typeof data); // ✅ Debugging
+                    console.log("✅ Parsed JSON:", data);
+
+                    if (data.messages.length === 0) {
+                        console.warn("⚠ No messages found!");
+                        return;
+                    }   
+                    document.getElementById("text-bar").value = "";
+                    // document.getElementById("div-custom-body").innerHTML = "";
+                    data.messages.forEach(msg => {
+                        document.getElementById("text-bar").value = msg.message;
+                        var newDiv = document.createElement("div");
+                        var msgcontainer = document.createElement("div");
+                        msgcontainer.id = "msgContainer";
+                        msgcontainer.style.width = "75vw";
+                        msgcontainer.style.height = "10vh";
+                        msgcontainer.style.backgroundColor = "white";
+                        msgcontainer.style.display = "flex";
+                        msgcontainer.style.flexDirection = "column";
+                        
+                        const message = document.getElementById("text-bar").value;
+
+                        newDiv.innerHTML = message;
+                        
+                        newDiv.style.color = "white";
+                        newDiv.style.width = "fit-content"
+                        newDiv.style.position = "relative";
+                        newDiv.style.borderRadius = "10px";
+                        newDiv.style.padding = "15px";
+                        newDiv.style.margin = "10px";
+                        newDiv.addEventListener("mouseover", () => {
+                            newDiv.style.boxShadow = "5px 5px 10px rgba(0, 0, 0, 0.5)";
+                        });
+
+                        newDiv.addEventListener("mouseout", () => {
+                            newDiv.style.boxShadow = "5px 5px 10px rgba(0, 0, 0, 0)";
+                        });
+                        newDiv.style.transition = "box-shadow 0.5s ease;"
+                        if(username === msg.username){
+                            newDiv.style.alignSelf = "flex-end";
+                            newDiv.style.backgroundColor = "rgb(44, 121, 202)";
+                        }
+                        else{
+                            newDiv.style.alignSelf = "flex-start";
+                            newDiv.style.color = "black";
+                            newDiv.style.backgroundColor = "rgb(212, 212, 212)";
+                        }
+
+                        msgcontainer.appendChild(newDiv);
+                        document.querySelector("#div-custom-body").appendChild(msgcontainer);
+                        scrollToBottom();
+                        document.getElementById("text-bar").value = "";
+                    });
+                })
+                .catch(error => console.error("❌ Error fetching messages:", error)); 
+
+                fetch(`http://localhost:3000/channels/${teamname}`)
+                .then(response => response.text()) // ✅ Log raw response before parsing
+                .then(text => {
+                    console.log("📥 Raw server response:", text);
+                    return JSON.parse(text); // ✅ Parse only if it's valid JSON
+                })
+                .then(data => {
+                    data.channels.forEach(msg => {
+                        createChannel(msg.name);
+                        console.log(msg.name);
+                    })
+                })
+            }
+
+            document.addEventListener("DOMContentLoaded", fetchMessages);
+            
+            document.getElementById("create-channel-button").addEventListener("click", () => {
+                document.getElementById("pop-up").style.display = "block";
+                document.getElementById("create-team-button").addEventListener("click", () => {
+                    let channelName = document.getElementById("team-name").value.trim();
+                    createChannel(channelName);
+                    fetch("http://localhost:3000/channels", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ name: channelName, team: teamname })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            console.log(`✅ ${document.getElementById("team-name").value.trim()} channel created:`, data);
+                        } else {
+                            console.error("❌ Error creating general channel:", data.message);
+                        }
+                    })
+                    .catch(error => console.error("❌ Error:", error));
+                })
+                
+            })
+
+            function createChannel(name){
+                let channelDiv = document.createElement('div');
+                    channelDiv.classList.add('general-button');
+                    channelDiv.classList.add('channel');
+                    channelDiv.innerText = name;
+                    channelDiv.addEventListener("click", () => {
+                        window.location.href = `AdminPage_Template_Teams.html?username=${username}&teamname=${teamname}&channel=${name}`;
+                    })
+                    document.getElementById("menu").appendChild(channelDiv);
+                    document.getElementById("back1").onclick();
+                    let hashDiv = document.createElement('div');
+                    hashDiv.style.fontSize = "20px";
+                    hashDiv.innerText = "#";
+                    hashDiv.style.marginRight = "10px";
+                    // hashDiv.style.alignSelf = "flex-start";
+                    hashDiv.style.float = "left";
+                    channelDiv.appendChild(hashDiv);
+
+                    let deleteChannelDiv = document.createElement('div');
+                    deleteChannelDiv.innerText = "❌";
+                    deleteChannelDiv.style.alignSelf = "flex-end";
+                    deleteChannelDiv.style.float = "right";
+                    deleteChannelDiv.style.height = "30px"
+                    deleteChannelDiv.style.width = "30px";
+                    deleteChannelDiv.style.display = "none";
+                    channelDiv.addEventListener("mouseover", () => {
+                        deleteChannelDiv.style.display = "flex";
+                    })
+                    channelDiv.addEventListener("mouseout", () => {
+                        deleteChannelDiv.style.display = "none";
+                    })
+                    deleteChannelDiv.addEventListener("click", (event) => {
+                        if(confirm(`Delete ${name} Channel?`)){
+                        event.preventDefault();
+                        fetch(`http://localhost:3000/channels/${name}`, {
+                            method: "DELETE",
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                console.log("✅ Channel deleted:", data);
+                                alert(`🎉 Channel '${channel}' deleted successfully!`);
+                                window.location.href = `AdminPage_Template.html?username=${username}&teamname=${teamname}`;
+                            } else {
+                                alert("❌ Error deleting Channel: " + data.message);
+                            }
+                        })
+                        .catch(error => console.error("❌ Error:", error));
+                        window.location.reload();
+                    }
+                    });
+                    channelDiv.appendChild(deleteChannelDiv)
+            }
+            // setInterval(() => {
+            //     fetch("http://localhost:3000/users/2/messages")
+            //     .then(response => response.json())
+            //     .then(data => {
+            //         let newMessages = data.filter(msg => msg.id > lastMessageId);
+            //         newMessages.forEach(msg => {
+            //             lastMessageId = msg.id;
+            //             if(lastMessageId >= msg.id){
+            //                 document.getElementById("text-bar").value = msg.message; // Display each message (might override previous ones)
+            //                   // Update last message ID as we go
+            //                 generateDiv();
+            //                 scrollToBottom();
+            //             }
+                        
+            //         });
+            //     })
+            //     .catch(error => console.error("❌ Error fetching messages:", error));
+            //     // const newMessages = data.filter(msg => msg.id > lastMessageId);
+            // }, 50); // Fetch every 5 seconds
+            // const popup = document.querySelector("#pop-up");
+            // profile_icon_popup.onclick = function(){
+            //     popup.style.display = "block";
+            //     document.querySelector("#inside-pop-up").style.display = "block";
+            //     document.querySelector("#team-addition-form").style.display = "none";
+            // }
+            const back = document.querySelector("#back");
+            back.onclick = function() {
+                window.location.href = `AdminPage_Template.html?username=${username}`
+            }
+            // document.querySelector("#back2").onclick = function() {
+            //     popup.style.display = "none";
+            // }
+            // document.querySelector("#add-teams").onclick = function() {
+            //     popup.style.display = "block";
+            //     document.querySelector("#inside-pop-up").style.display = "none";
+            //     document.querySelector("#team-addition-form").style.display = "block";
+            // }
+        </script>
+    </body>
+</html>
