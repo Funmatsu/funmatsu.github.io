@@ -3,7 +3,6 @@ const cors = require('cors'); // Import CORS
 
 const app = express();
 app.use(express.json());
-app.use(cors({ origin: '*' })); // Allow all origins (or specify your frontend URL)
 app.use(cors({ origin: 'https://funmatsu.github.io' })); // Allow requests from GitHub Pages
 const mysql = require('mysql2');
 
