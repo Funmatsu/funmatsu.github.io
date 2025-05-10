@@ -55,8 +55,8 @@
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ username, password })
-            });
-
+            })
+            .then(async response => {
             const data = await response.json();
             if (data.success) {
                 window.location.href = `AdminPage_Template.html?username=${username}`;
@@ -66,6 +66,7 @@
                 loginBtn.textContent = "Log In"; // ✅ Reset button state
                 loginBtn.disabled = false;
             }
+        });
         });
 
 
