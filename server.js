@@ -3,15 +3,15 @@ const express = require('express');
 const app = express();
 require("dotenv").config();
 
-const cors = require('cors');
+// const cors = require('cors');
 
-const corsOptions = {
-  origin: 'https://funmatsu.github.io',
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  credentials: true,
-};
+// const corsOptions = {
+//   origin: 'https://funmatsu.github.io',
+//   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+//   credentials: true,
+// };
 
-app.use(cors(corsOptions));
+// app.use(cors(corsOptions));
 // app.options("/login", (req, res) => {
 //     res.header("Access-Control-Allow-Origin", "https://funmatsu.github.io");
 //     res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
