@@ -1,28 +1,58 @@
 const express = require('express');
-const cors = require('cors'); // Import CORS
-
+// const cors = require("cors");
 const app = express();
-app.use(express.json());
-app.use(cors({ origin: 'https://funmatsu.github.io' })); // Allow requests from GitHub Pages
-const mysql = require('mysql2');
+require("dotenv").config();
 
-const connection = mysql.createConnection({
-    host: "gondola.proxy.rlwy.net",
-    user: "root",
-    password: "OAduSKGiPCarOGqsCuYRHAWDSKkiJZhj",
-    database: "railway",
-    port: 34331
+const cors = require('cors');
+
+app.use(cors({
+  origin: 'https://funmatsu.github.io',
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  credentials: true, // if you send cookies or authentication headers
+}));
+
+// app.use((req, res, next) => {
+//     res.header("Access-Control-Allow-Origin", "https://funmatsu.github.io");
+//     res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+//     res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
+//     next();
+// });
+app.use((req, res, next) => {
+    res.header("Access-Control-Allow-Origin", "https://funmatsu.github.io");
+    res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+    res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
+    
+    if (req.method === "OPTIONS") {
+        console.log("received preflight checks!");
+        return res.sendStatus(200); // ✅ Respond to preflight checks
+    }
+
+    next();
 });
+
+app.use(express.json());
+const mysql = require('mysql2');
+console.log(process.env.DB_PASS);
+const connection = mysql.createConnection({
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASS,
+    database: process.env.DB_NAME,
+    port: process.env.DB_PORT
+});
+
 
 connection.connect(err => {
     if (err) throw err;
     console.log("✅ Database connected!");
 });
 
+
+
 // ✅ Test Route
-app.get('/', (req, res) => {
-    res.send("Hello, World! Your Node.js server is running!");
-});
+// app.get('/', (req, res) => {
+//     res.send("Hello, World! Your Node.js server is running!");
+// });
 
 app.get('/data', (req, res) => {
     connection.query("SELECT * FROM users", (err, results) => {
@@ -54,16 +84,16 @@ app.post("/login", (req, res) => {
     });
 });
 
-app.post("/login", (req, res) => {
-    console.log("Received body:", req.body); // Debugging step
-    const { username, password } = req.body;
+// app.post("/login", (req, res) => {
+//     console.log("Received body:", req.body); // Debugging step
+//     const { username, password } = req.body;
     
-    if (!username || !password) {
-        return res.status(400).json({ success: false, message: "❌ Missing username or password!" });
-    }
+//     if (!username || !password) {
+//         return res.status(400).json({ success: false, message: "❌ Missing username or password!" });
+//     }
     
-    res.json({ message: "Login request processed!" });
-});
+//     res.json({ message: "Login request processed!" });
+// });
 
 
 app.post("/teams", (req, res) => {
@@ -404,9 +434,9 @@ app.delete('/messages', (req, res) => {
 });
 
 // ✅ Start the Server
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.DB_PORT || 3000;
 app.listen(PORT, () => {
-    console.log(`🚀 Server is live at http://funmatsugithubio-production.up.railway.app:${PORT}`);
+    console.log(`🚀 Server is live at https://funmatsugithubio-production.up.railway.app:${PORT}`);
 });
 
 const WebSocket = require("ws");
