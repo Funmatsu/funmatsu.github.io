@@ -1,29 +1,40 @@
 const express = require('express');
+// const cors = require("cors");
 const app = express();
+require("dotenv").config();
 
-const cors = require("cors");
+const cors = require('cors');
+
 app.use(cors({
-    origin: "https://funmatsu.github.io", // ✅ Allow requests only from your frontend
-    methods: "GET, POST, OPTIONS",
-    allowedHeaders: "Content-Type, Authorization"
+  origin: 'https://funmatsu.github.io',
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  credentials: true, // if you send cookies or authentication headers
 }));
-// app.use((req, res, next) => {
-//     res.header("Access-Control-Allow-Origin", "https://funmatsu.github.io");
-//     res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
-//     res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
-//     next();
-// });
+
+app.use((req, res, next) => {
+    res.header("Access-Control-Allow-Origin", "https://funmatsu.github.io");
+    res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+    res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
+    
+    if (req.method === "OPTIONS") {
+        console.log("received preflight checks!");
+        return res.sendStatus(200); // ✅ Respond to preflight checks
+    }
+
+    next();
+});
 
 app.use(express.json());
 const mysql = require('mysql2');
-
+console.log(process.env.DB_PASS);
 const connection = mysql.createConnection({
-    host: "gondola.proxy.rlwy.net",
-    user: "root",
-    password: "OAduSKGiPCarOGqsCuYRHAWDSKkiJZhj",
-    database: "railway",
-    port: 34331
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASS,
+    database: process.env.DB_NAME,
+    port: process.env.DB_PORT
 });
+
 
 connection.connect(err => {
     if (err) throw err;
@@ -417,7 +428,7 @@ app.delete('/messages', (req, res) => {
 });
 
 // ✅ Start the Server
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.DB_PORT || 3000;
 app.listen(PORT, () => {
     console.log(`🚀 Server is live at https://funmatsugithubio-production.up.railway.app:${PORT}`);
 });
