@@ -6,11 +6,17 @@ require("dotenv").config();
 const cors = require('cors');
 
 app.use(cors({
-  origin: 'https://funmatsu.github.io',
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  credentials: true, // if you send cookies or authentication headers
+  origin: 'https://funmatsu.github.io', // or '*' to allow all (not recommended for production)
+  methods: ['GET', 'POST', 'OPTIONS'],
+  credentials: true,
 }));
 
+// app.use((req, res, next) => {
+//     res.header("Access-Control-Allow-Origin", "https://funmatsu.github.io");
+//     res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+//     res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
+//     next();
+// });
 app.use((req, res, next) => {
     res.header("Access-Control-Allow-Origin", "https://funmatsu.github.io");
     res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
