@@ -2,16 +2,16 @@ const express = require('express');
 // const cors = require("cors");
 const app = express();
 require("dotenv").config();
-const { createProxyMiddleware } = require("http-proxy-middleware");
+// const { createProxyMiddleware } = require("http-proxy-middleware");
 
-app.use("/api", createProxyMiddleware({
-    target: "https://funmatsugithubio-production.up.railway.app",
-    changeOrigin: true,
-    pathRewrite: { "^/api": "" } // ✅ Removes "/api" prefix before forwarding
-}));
+// app.use("/api", createProxyMiddleware({
+//     target: "https://funmatsugithubio-production.up.railway.app",
+//     changeOrigin: true,
+//     pathRewrite: { "^/api": "" } // ✅ Removes "/api" prefix before forwarding
+// }));
 
-const PORT_prox = 9090; // Choose any port
-app.listen(PORT_prox, () => console.log(`🚀 Proxy server running on http://localhost:${PORT_prox}_prox`));
+// const PORT_prox = 9090; // Choose any port
+// app.listen(PORT_prox, () => console.log(`🚀 Proxy server running on http://localhost:${PORT_prox}_prox`));
 
 // const cors = require('cors');
 
@@ -50,6 +50,17 @@ app.listen(PORT_prox, () => console.log(`🚀 Proxy server running on http://loc
 
 //     next();
 // });
+const cors = require("cors");
+
+const corsOptions = {
+    origin: "https://funmatsu.github.io", // ✅ Allow requests from your frontend
+    methods: ["GET", "POST", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true
+};
+
+app.use(cors(corsOptions)); // 🔥 Enables CORS
+// app.options('/*', cors(corsOptions));
 
 app.use(express.json());
 const mysql = require('mysql2');
