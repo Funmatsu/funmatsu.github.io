@@ -5,24 +5,41 @@ require("dotenv").config();
 
 const cors = require('cors');
 
-app.use(cors({
+const corsOptions = {
   origin: 'https://funmatsu.github.io',
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  credentials: true, // if you send cookies or authentication headers
-}));
+  credentials: true,
+};
 
-app.use((req, res, next) => {
+app.use(cors(corsOptions));
+app.options("/login", (req, res) => {
     res.header("Access-Control-Allow-Origin", "https://funmatsu.github.io");
     res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
     res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
-    
-    if (req.method === "OPTIONS") {
-        console.log("received preflight checks!");
-        return res.sendStatus(200); // ✅ Respond to preflight checks
-    }
-
-    next();
+    res.sendStatus(200);
 });
+
+app.options("/users", (req, res) => {
+    res.header("Access-Control-Allow-Origin", "https://funmatsu.github.io");
+    res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+    res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
+    res.sendStatus(200);
+});
+
+
+
+// app.use((req, res, next) => {
+//     res.header("Access-Control-Allow-Origin", "https://funmatsu.github.io");
+//     res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+//     res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
+    
+//     if (req.method === "OPTIONS") {
+//         console.log("received preflight checks!");
+//         return res.sendStatus(200); // ✅ Respond to preflight checks
+//     }
+
+//     next();
+// });
 
 app.use(express.json());
 const mysql = require('mysql2');
