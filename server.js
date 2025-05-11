@@ -474,3 +474,13 @@ wss.on("connection", (ws) => {
     ws.on("close", () => console.log("❌ Client disconnected"));
 });
 
+const { createProxyMiddleware } = require("http-proxy-middleware");
+
+app.use("/api", createProxyMiddleware({
+    target: "https://funmatsugithubio-production.up.railway.app",
+    changeOrigin: true,
+    pathRewrite: { "^/api": "" } // ✅ Removes "/api" prefix before forwarding
+}));
+
+const PORT_prox = 8080; // Choose any port
+app.listen(PORT_prox, () => console.log(`🚀 Proxy server running on http://localhost:${PORT_prox}_prox`));

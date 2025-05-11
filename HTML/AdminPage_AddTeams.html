@@ -51,7 +51,7 @@
             loginBtn.disabled = true; // ✅ Prevent multiple clicks
 
             console.log("Sending data, ", username); // Debugging step
-            fetch("https://funmatsugithubio-production.up.railway.app/login", {
+            fetch("http://localhost:8080/api/login", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ username, password })
