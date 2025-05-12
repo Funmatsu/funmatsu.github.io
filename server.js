@@ -468,7 +468,7 @@ app.delete('/messages', (req, res) => {
 // ✅ Start the Server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-    console.log(`🚀 Server is live at https://funmatsugithubio-production.up.railway.app:${PORT}`);
+    console.log("🚀 Listening to port", PORT);
 });
 
 const WebSocket = require("ws");
