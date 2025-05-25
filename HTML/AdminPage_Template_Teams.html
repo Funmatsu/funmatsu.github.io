@@ -144,7 +144,7 @@
                 var newDiv = document.createElement("div");
                 const message = document.getElementById("text-bar").value;
                 console.log("🚀 Sending POST request to backend at:", new Date().toISOString());
-                fetch("http://funmatsugithubio-production.up.railway.app/messages_teams", {
+                fetch("https://funmatsugithubio-production.up.railway.app/messages_teams", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ 
@@ -190,7 +190,7 @@
             function storeToDB(msg){
                 const message = msg;
                 console.log("🚀 Sending POST request to backend at:", new Date().toISOString());
-                fetch("http://funmatsugithubio-production.up.railway.app/messages_teams", {
+                fetch("https://funmatsugithubio-production.up.railway.app/messages_teams", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ 
@@ -209,7 +209,7 @@
             }
             
             function clearMessages() {
-                fetch("http://funmatsugithubio-production.up.railway.app/messages", {
+                fetch("https://funmatsugithubio-production.up.railway.app/messages", {
                     method: "DELETE",
                 })
                 .then(response => response.json())
@@ -218,7 +218,7 @@
             }
 
             function fetchMessages() {
-                fetch(`http://funmatsugithubio-production.up.railway.app/messages_teams/${teamname}/${channel}`)
+                fetch(`https://funmatsugithubio-production.up.railway.app/messages_teams/${teamname}/${channel}`)
                 .then(response => response.text()) // ✅ Log raw response before parsing
                 .then(text => {
                     console.log("📥 Raw server response:", text);
@@ -281,7 +281,7 @@
                 })
                 .catch(error => console.error("❌ Error fetching messages:", error)); 
 
-                fetch(`http://funmatsugithubio-production.up.railway.app/channels/${teamname}`)
+                fetch(`https://funmatsugithubio-production.up.railway.app/channels/${teamname}`)
                 .then(response => response.text()) // ✅ Log raw response before parsing
                 .then(text => {
                     console.log("📥 Raw server response:", text);
@@ -302,7 +302,7 @@
                 document.getElementById("create-team-button").addEventListener("click", () => {
                     let channelName = document.getElementById("team-name").value.trim();
                     createChannel(channelName);
-                    fetch("http://funmatsugithubio-production.up.railway.app/channels", {
+                    fetch("https://funmatsugithubio-production.up.railway.app/channels", {
                         method: "POST",
                         headers: { "Content-Type": "application/json" },
                         body: JSON.stringify({ name: channelName, team: teamname })
@@ -354,7 +354,7 @@
                     deleteChannelDiv.addEventListener("click", (event) => {
                         if(confirm(`Delete ${name} Channel?`)){
                         event.preventDefault();
-                        fetch(`http://funmatsugithubio-production.up.railway.app/channels/${name}`, {
+                        fetch(`https://funmatsugithubio-production.up.railway.app/channels/${name}`, {
                             method: "DELETE",
                         })
                         .then(response => response.json())
