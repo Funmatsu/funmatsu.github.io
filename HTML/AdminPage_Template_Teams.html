@@ -126,6 +126,7 @@
                      })); // ✅ Send message via WebSocket
                     storeToDB(msgString);
                     document.getElementById("text-bar").value = "";
+                    window.location.reload();
                 }
             });
 
