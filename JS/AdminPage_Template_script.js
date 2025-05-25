@@ -475,8 +475,8 @@ function renderTeam() {
     });
     newerDivText.style.float = "left";
     deleteTeamDiv.addEventListener("click", (event) => {
-        if(confirm(`Delete ${teamname} Team?`)){
         event.preventDefault();
+        if(confirm(`Delete ${teamname} Team?`)){
         fetch(`http://funmatsugithubio-production.up.railway.app/teams/${teamname}`, {
             method: "DELETE",
         })
@@ -492,7 +492,7 @@ function renderTeam() {
         })
         .catch(error => console.error("❌ Error:", error));
         window.location.reload();
-    }
+        }
     });
     newerDiv.appendChild(newerDivText);
     newerDiv.appendChild(deleteTeamDiv);
