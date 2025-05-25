@@ -470,16 +470,17 @@ app.delete('/messages', (req, res) => {
 });
 
 // ✅ Start the Server
-const PORT = process.env.PORT || 3000;
+const PORT = 3000;
 app.listen(PORT, () => {
     console.log("🚀 Listening to port", PORT);
 });
 
+const PORT_soc = process.env.PORT || 8080;
 const WebSocket = require("ws");
-const wss = new WebSocket.Server({ port: PORT });
+const wss = new WebSocket.Server({ port: PORT_soc });
 
 wss.on("connection", (ws) => {
-    console.log("✅ New client connected!");
+    console.log(`✅ New client connected! port: ${PORT_soc}`);
 
     ws.on("message", (message) => {
         const parsedMessage = JSON.parse(message);
