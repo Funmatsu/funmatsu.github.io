@@ -470,13 +470,13 @@ app.delete('/messages', (req, res) => {
 });
 
 // ✅ Start the Server
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log("🚀 Listening to port", PORT);
 });
 
 const WebSocket = require("ws");
-const wss = new WebSocket.Server({ port: 443 });
+const wss = new WebSocket.Server({ port: PORT });
 
 wss.on("connection", (ws) => {
     console.log("✅ New client connected!");
