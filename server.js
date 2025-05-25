@@ -475,7 +475,7 @@ app.listen(PORT, () => {
     console.log("🚀 Listening to port", PORT);
 });
 
-const PORT_soc = process.env.PORT || 8080;
+const PORT_soc = process.env.PORT || 443;
 const WebSocket = require("ws");
 const wss = new WebSocket.Server({ port: PORT_soc });
 
