@@ -6,7 +6,22 @@
     height: 98%;
     width: 200px;
     border-radius: 25px;
-    /* min-width: calc(20%); */
+    overflow: auto;
+    max-width: calc(15%);
+}
+
+#menu::-webkit-scrollbar {
+    width: 12px; /* Width of the scrollbar */
+}
+
+#menu::-webkit-scrollbar-track {
+    background: #f0f0f0; /* Background of the scrollbar track*/
+    border-radius: 50px;
+}
+
+#menu::-webkit-scrollbar-thumb {
+    background: #236fc6; /* Color of the scrollbar thumb */
+    border-radius: 6px; /* Rounded corners for the scrollbar thumb */
 }
 
 #other-left-column{
@@ -111,6 +126,7 @@ body {
         font-size: 20px;
         border-top-left-radius: 20px;
         border-top-right-radius: 20px;
+        min-width: 75vw;
 }
 /* .about {
     position: fixed;
@@ -121,7 +137,7 @@ body {
     top: 80px;
     left: 215px;
     width: calc(100% - 320px);
-    
+    min-width: 70vw;
     height: 80vw;
     background-color: white;
     padding-left: 30px;
@@ -531,6 +547,7 @@ body {
     min-height: 10px;
     padding: 2vw;
     font-size: 2.5vh;
+    min-width: 65vw;
 }
 
 #link{
