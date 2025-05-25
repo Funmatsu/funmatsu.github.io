@@ -469,24 +469,23 @@ app.delete('/messages', (req, res) => {
     });
 });
 
-const https = require("https");
+// ✅ Start the Server
+const PORT = 3000;
+app.listen(PORT, () => {
+    console.log("🚀 Listening to port", PORT);
+});
+
+const PORT_soc = process.env.PORT || 8080;
 const WebSocket = require("ws");
-
-const PORT = process.env.PORT || 3000;
-
-// ✅ Create an HTTP server from Express
-const server = https.createServer(app);
-
-// ✅ Wrap WebSockets inside the same HTTP server
-const wss = new WebSocket.Server({ server });
+const wss = new WebSocket.Server({ port: PORT_soc });
 
 wss.on("connection", (ws) => {
-    console.log(`✅ New WebSocket client connected!`);
+    console.log(`✅ New client connected! port: ${PORT_soc}`);
 
     ws.on("message", (message) => {
         const parsedMessage = JSON.parse(message);
-        console.log(`📩 Message from ${parsedMessage.username}: ${parsedMessage.message}`);
-
+        console.log(`📩 Message from ${parsedMessage.username}:`, parsedMessage.message);
+    
         wss.clients.forEach(client => {
             if (client.readyState === WebSocket.OPEN) {
                 client.send(JSON.stringify({
@@ -496,11 +495,7 @@ wss.on("connection", (ws) => {
             }
         });
     });
+    
 
     ws.on("close", () => console.log("❌ Client disconnected"));
-});
-
-// ✅ Start the Server
-server.listen(PORT, () => {
-    console.log(`🚀 Express & WebSocket Server running on port ${PORT}`);
 });
