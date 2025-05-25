@@ -86,6 +86,10 @@ connection.connect(err => {
 //     res.send("Hello, World! Your Node.js server is running!");
 // });
 
+app.get("/", (req, res) => {
+    res.send("🚀 Railway Backend is Live! Use `/data`, `/teams`, or `/users` to get started.");
+});
+
 app.get('/data', (req, res) => {
     connection.query("SELECT * FROM users", (err, results) => {
         if (err) {
