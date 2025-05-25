@@ -59,7 +59,7 @@ document.querySelector("#add-teams").onclick = function() {
         
         console.log("📤 Sending Data:", { team_name, team_desc }); // ✅ Debugging
         
-        const response = await fetch("http://funmatsugithubio-production.up.railway.app/teams", {
+        const response = await fetch("https://funmatsugithubio-production.up.railway.app/teams", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ name: team_name, description: team_desc }) // ✅ Correct property names!
@@ -88,7 +88,7 @@ function generateDiv() {
     }
     let teamName = document.getElementById("team-name").value;
     let teamDescription = document.getElementById("team-desc").value;
-    fetch("http://funmatsugithubio-production.up.railway.app/teams", {
+    fetch("https://funmatsugithubio-production.up.railway.app/teams", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name: teamName, description: teamDescription })
@@ -247,7 +247,7 @@ function generateDiv() {
             newerDiv.id = "generatedNew";
             let teamname = document.getElementById("team-name").value;
             let general = "general";
-            fetch("http://funmatsugithubio-production.up.railway.app/channels", {
+            fetch("https://funmatsugithubio-production.up.railway.app/channels", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ name: "general", team: teamName })
@@ -279,7 +279,7 @@ function generateDiv() {
             newerDivText.style.float = "left";
             deleteTeamDiv.addEventListener("click", (event) => {
                 event.preventDefault();
-                fetch(`http://funmatsugithubio-production.up.railway.app/teams/${teamname}`, {
+                fetch(`https://funmatsugithubio-production.up.railway.app/teams/${teamname}`, {
                     method: "DELETE",
                 })
                 .then(response => response.json())
