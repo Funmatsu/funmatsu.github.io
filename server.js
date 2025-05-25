@@ -476,7 +476,7 @@ app.listen(PORT, () => {
 });
 
 const PORT_soc = process.env.PORT || 443;
-const WebSocket = require("ws");
+const WebSocket = require("wss");
 const wss = new WebSocket.Server({ port: PORT_soc });
 
 wss.on("connection", (ws) => {
