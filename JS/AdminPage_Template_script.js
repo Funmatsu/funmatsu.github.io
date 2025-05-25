@@ -59,11 +59,11 @@ document.querySelector("#add-teams").onclick = function() {
         
         console.log("📤 Sending Data:", { team_name, team_desc }); // ✅ Debugging
         
-        const response = await fetch("https://funmatsugithubio-production.up.railway.app/teams", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ name: team_name, description: team_desc }) // ✅ Correct property names!
-        });
+        // const response = await fetch("https://funmatsugithubio-production.up.railway.app/teams", {
+        //     method: "POST",
+        //     headers: { "Content-Type": "application/json" },
+        //     body: JSON.stringify({ name: team_name, description: team_desc }) // ✅ Correct property names!
+        // });
     
         const data = await response.json();
         if (data.success) {
