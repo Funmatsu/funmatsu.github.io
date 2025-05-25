@@ -53,7 +53,7 @@ require("dotenv").config();
 const cors = require("cors");
 
 const corsOptions = {
-    origin: "https://funmatsu.github.io", // ✅ Allow requests from your frontend
+    origin: "*", // ✅ Allow requests from your frontend
     methods: ["GET", "POST", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true
