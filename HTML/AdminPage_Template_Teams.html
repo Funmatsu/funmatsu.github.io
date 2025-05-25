@@ -208,14 +208,14 @@
                 scrollableDiv.scrollTop = scrollableDiv.scrollHeight;
             }
             
-            function clearMessages() {
-                fetch("https://funmatsugithubio-production.up.railway.app/messages", {
-                    method: "DELETE",
-                })
-                .then(response => response.json())
-                .then(data => console.log(data.message)) // Confirm deletion
-                .catch(error => console.error("❌ Error:", error));
-            }
+            // function clearMessages() {
+            //     fetch("https://funmatsugithubio-production.up.railway.app/messages", {
+            //         method: "DELETE",
+            //     })
+            //     .then(response => response.json())
+            //     .then(data => console.log(data.message)) // Confirm deletion
+            //     .catch(error => console.error("❌ Error:", error));
+            // }
 
             function fetchMessages() {
                 fetch(`https://funmatsugithubio-production.up.railway.app/messages_teams/${teamname}/${channel}`)
