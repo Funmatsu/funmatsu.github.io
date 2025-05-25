@@ -63,6 +63,7 @@ app.use(cors(corsOptions)); // 🔥 Enables CORS
 app.options('/', cors(corsOptions));
 
 app.use(express.json());
+// app.use(cors({ origin: "https://funmatsu.github.io" }));
 const mysql = require('mysql2');
 console.log(process.env.DB_PASS);
 const connection = mysql.createConnection({
@@ -78,7 +79,6 @@ connection.connect(err => {
     if (err) throw err;
     console.log("✅ Database connected!");
 });
-
 
 
 // ✅ Test Route
