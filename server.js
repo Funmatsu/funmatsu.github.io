@@ -183,7 +183,6 @@ app.delete("/teams/:teamname", (req, res) => {
     });
 });
 
-
 // ✅ Fetch All Users
 app.get('/users', (req, res) => {
     connection.query("SELECT username FROM users", (err, results) => {
