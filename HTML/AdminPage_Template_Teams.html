@@ -114,7 +114,6 @@
                 
             };
 
-
             document.getElementById("text-bar").addEventListener("keypress", function(event) {  
                 let msgString = `<strong>${username}:  </strong>` + document.getElementById("text-bar").value + `     <small>${new Date().toLocaleString()}</small>`;
                 if (event.key === "Enter" && document.getElementById("text-bar").value !== "") {
