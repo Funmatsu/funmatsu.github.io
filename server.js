@@ -1,6 +1,8 @@
 const express = require('express');
 // const cors = require("cors");
 const app = express();
+const https = require("https");
+const WebSocket = require("ws");
 require("dotenv").config();
 // const { createProxyMiddleware } = require("http-proxy-middleware");
 
@@ -63,6 +65,33 @@ app.use(cors(corsOptions)); // 🔥 Enables CORS
 app.options('/', cors(corsOptions));
 
 app.use(express.json());
+
+// ✅ Create an HTTP server from Express
+const server = https.createServer(app);
+
+// ✅ Attach WebSockets to the same Express server
+const wss = new WebSocket.Server({ server });
+
+wss.on("connection", (ws) => {
+    console.log("✅ WebSocket client connected!");
+
+    ws.on("message", (message) => {
+        const parsedMessage = JSON.parse(message);
+        console.log(`📩 Received message from ${parsedMessage.username}: ${parsedMessage.message}`);
+
+        wss.clients.forEach(client => {
+            if (client.readyState === WebSocket.OPEN) {
+                client.send(JSON.stringify({
+                    username: parsedMessage.username, 
+                    message: parsedMessage.message
+                }));
+            }
+        });
+    });
+
+    ws.on("close", () => console.log("❌ WebSocket client disconnected"));
+});
+
 // app.use(cors({ origin: "https://funmatsu.github.io" }));
 const mysql = require('mysql2');
 console.log(process.env.DB_PASS);
@@ -469,39 +498,10 @@ app.delete('/messages', (req, res) => {
 });
 
 // ✅ Start the Server
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 // app.listen(PORT, () => {
 //     console.log("🚀 Listening to port", PORT);
 // });
-
-const PORT_soc = process.env.PORT || 443;
-const https = require("https");
-const fs = require("fs");
-const WebSocket = require("ws");
-
-const server = https.createServer(app); // ✅ Create HTTPS server
-
-const wss = new WebSocket.Server({ server });
-
-wss.on("connection", (ws) => {
-    console.log(`✅ New client connected!`);
-
-    ws.on("message", (message) => {
-        const parsedMessage = JSON.parse(message);
-        console.log(`📩 Message from ${parsedMessage.username}:`, parsedMessage.message);
-
-        wss.clients.forEach(client => {
-            if (client.readyState === WebSocket.OPEN) {
-                client.send(JSON.stringify({
-                    username: parsedMessage.username, 
-                    message: parsedMessage.message
-                }));
-            }
-        });
-    });
-
-    ws.on("close", () => console.log("❌ Client disconnected"));
-});
 
 // ✅ Start the Express & WebSocket Server on Railway's assigned port
 server.listen(PORT, () => {
