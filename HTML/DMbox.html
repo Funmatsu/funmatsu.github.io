@@ -99,7 +99,7 @@
             let teamname = params.get("teamname");
             let channel  = params.get("channel" );
 
-            const ws = new WebSocket("ws://funmatsugithubio-production.up.railway.app:8080"); // ✅ Connect to WebSocket server
+            const ws = new WebSocket("wss://funmatsugithubio-production.up.railway.app"); // ✅ Connect to WebSocket server
 
             ws.onmessage = async (event) => {
                 console.log("📥 Incoming message:", event.data);
