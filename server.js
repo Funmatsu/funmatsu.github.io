@@ -1,8 +1,6 @@
 const express = require('express');
 // const cors = require("cors");
 const app = express();
-const http = require("http");
-const WebSocket = require("ws");
 require("dotenv").config();
 // const { createProxyMiddleware } = require("http-proxy-middleware");
 
@@ -38,6 +36,20 @@ require("dotenv").config();
 //     res.sendStatus(200);
 // });
 
+
+
+// app.use((req, res, next) => {
+//     res.header("Access-Control-Allow-Origin", "https://funmatsu.github.io");
+//     res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+//     res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
+    
+//     if (req.method === "OPTIONS") {
+//         console.log("received preflight checks!");
+//         return res.sendStatus(200); // ✅ Respond to preflight checks
+//     }
+
+//     next();
+// });
 const cors = require("cors");
 
 const corsOptions = {
@@ -51,46 +63,6 @@ app.use(cors(corsOptions)); // 🔥 Enables CORS
 app.options('/', cors(corsOptions));
 
 app.use(express.json());
-
-app.use((req, res, next) => {
-    res.header("Access-Control-Allow-Origin", "https://funmatsu.github.io");
-    res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
-    res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
-    
-    if (req.method === "OPTIONS") {
-        console.log("received preflight checks!");
-        return res.sendStatus(200); // ✅ Respond to preflight checks
-    }
-
-    next();
-});
-// ✅ Create an HTTP server from Express
-const server = http.createServer(app);
-
-// ✅ Attach WebSockets to the same Express server
-const wss = new WebSocket.Server({ server });
-
-wss.on("connection", (ws, req) => {
-    const origin = req.headers.origin;
-    
-    if (origin !== "https://funmatsu.github.io") {
-        console.log("🚫 Blocked WebSocket connection from:", origin);
-        ws.close();
-        return;
-    }
-
-    console.log("✅ WebSocket client connected!");
-
-    ws.on("message", (message) => {
-        console.log(`📩 Received message: ${message}`);
-        ws.send(`Echo: ${message}`);
-    });
-
-    ws.on("close", () => console.log("❌ WebSocket client disconnected"));
-});
-
-
-// app.use(cors({ origin: "https://funmatsu.github.io" }));
 const mysql = require('mysql2');
 console.log(process.env.DB_PASS);
 const connection = mysql.createConnection({
@@ -108,14 +80,11 @@ connection.connect(err => {
 });
 
 
+
 // ✅ Test Route
 // app.get('/', (req, res) => {
 //     res.send("Hello, World! Your Node.js server is running!");
 // });
-
-app.get("/", (req, res) => {
-    res.send("🚀 Railway Backend is Live! Use `/data`, `/teams`, or `/users` to get started.");
-});
 
 app.get('/data', (req, res) => {
     connection.query("SELECT * FROM users", (err, results) => {
@@ -209,6 +178,7 @@ app.delete("/teams/:teamname", (req, res) => {
         res.json({ success: true, message: "Team deleted!" });
     });
 });
+
 
 // ✅ Fetch All Users
 app.get('/users', (req, res) => {
@@ -497,11 +467,30 @@ app.delete('/messages', (req, res) => {
 
 // ✅ Start the Server
 const PORT = process.env.PORT || 3000;
-// app.listen(PORT, () => {
-//     console.log("🚀 Listening to port", PORT);
-// });
+app.listen(PORT, () => {
+    console.log("🚀 Listening to port", PORT);
+});
 
-// ✅ Start the Express & WebSocket Server on Railway's assigned port
-server.listen(PORT, () => {
-    console.log(`🚀 Express & WebSocket Server running on port ${PORT}`);
+const WebSocket = require("ws");
+const wss = new WebSocket.Server({ port: 8080 });
+
+wss.on("connection", (ws) => {
+    console.log("✅ New client connected!");
+
+    ws.on("message", (message) => {
+        const parsedMessage = JSON.parse(message);
+        console.log(`📩 Message from ${parsedMessage.username}:`, parsedMessage.message);
+    
+        wss.clients.forEach(client => {
+            if (client.readyState === WebSocket.OPEN) {
+                client.send(JSON.stringify({
+                    username: parsedMessage.username, 
+                    message: parsedMessage.message
+                }));
+            }
+        });
+    });
+    
+
+    ws.on("close", () => console.log("❌ Client disconnected"));
 });
