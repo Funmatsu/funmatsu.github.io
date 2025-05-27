@@ -107,7 +107,8 @@
                 const parsedMessage = JSON.parse(receivedMessage); // ✅ Parse message as JSON
                 document.getElementById("text-bar").value = parsedMessage.message;
                 
-                sendMsg();
+                sendMsg(event.data.username);
+                window.location.reload();
 
                 document.getElementById("text-bar").value = "";
                 scrollToBottom();
@@ -168,7 +169,7 @@
                 document.getElementById("text-bar").value = "";
             }
 
-            function sendMsg() {
+            function sendMsg(username_sent) {
                 var newDiv = document.createElement("div");
                 const message = document.getElementById("text-bar").value;
 
@@ -181,7 +182,15 @@
                 newDiv.style.borderRadius = "10px";
                 newDiv.style.padding = "15px";
                 newDiv.style.margin = "10px";
-                
+                if(username === username_sent){
+                    newDiv.style.alignSelf = "flex-end";
+                    newDiv.style.backgroundColor = "rgb(44, 121, 202)";
+                }
+                else{
+                    newDiv.style.alignSelf = "flex-start";
+                    newDiv.style.color = "black";
+                    newDiv.style.backgroundColor = "rgb(212, 212, 212)";
+                }
                 newDiv.className = "generated";
                 document.querySelector("#div-custom-body").appendChild(newDiv);
             }
