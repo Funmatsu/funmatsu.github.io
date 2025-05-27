@@ -475,16 +475,25 @@ app.listen(PORT, () => {
 });
 
 const PORT_soc = process.env.PORT || 443;
+const https = require("https");
+const fs = require("fs");
 const WebSocket = require("ws");
-const wss = new WebSocket.Server({ port: PORT_soc });
+
+const server = https.createServer(app); // ✅ Create HTTPS server
+
+const wss = new WebSocket.Server({ server });
+
+server.listen(process.env.PORT || 443, () => {
+    console.log("✅ Secure WebSocket server running!");
+});
 
 wss.on("connection", (ws) => {
-    console.log(`✅ New client connected! port: ${PORT_soc}`);
+    console.log(`✅ New client connected!`);
 
     ws.on("message", (message) => {
         const parsedMessage = JSON.parse(message);
         console.log(`📩 Message from ${parsedMessage.username}:`, parsedMessage.message);
-    
+
         wss.clients.forEach(client => {
             if (client.readyState === WebSocket.OPEN) {
                 client.send(JSON.stringify({
@@ -494,7 +503,11 @@ wss.on("connection", (ws) => {
             }
         });
     });
-    
 
     ws.on("close", () => console.log("❌ Client disconnected"));
+});
+
+// ✅ Start the Express & WebSocket Server on Railway's assigned port
+server.listen(PORT, () => {
+    console.log(`🚀 Express & WebSocket Server running on port ${PORT}`);
 });
