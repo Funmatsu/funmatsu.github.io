@@ -38,20 +38,6 @@ require("dotenv").config();
 //     res.sendStatus(200);
 // });
 
-
-
-// app.use((req, res, next) => {
-//     res.header("Access-Control-Allow-Origin", "https://funmatsu.github.io");
-//     res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
-//     res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
-    
-//     if (req.method === "OPTIONS") {
-//         console.log("received preflight checks!");
-//         return res.sendStatus(200); // ✅ Respond to preflight checks
-//     }
-
-//     next();
-// });
 const cors = require("cors");
 
 const corsOptions = {
@@ -66,6 +52,18 @@ app.options('/', cors(corsOptions));
 
 app.use(express.json());
 
+app.use((req, res, next) => {
+    res.header("Access-Control-Allow-Origin", "https://funmatsu.github.io");
+    res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+    res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
+    
+    if (req.method === "OPTIONS") {
+        console.log("received preflight checks!");
+        return res.sendStatus(200); // ✅ Respond to preflight checks
+    }
+
+    next();
+});
 // ✅ Create an HTTP server from Express
 const server = https.createServer(app);
 
