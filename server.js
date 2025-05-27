@@ -72,25 +72,25 @@ const server = https.createServer(app);
 // ✅ Attach WebSockets to the same Express server
 const wss = new WebSocket.Server({ server });
 
-wss.on("connection", (ws) => {
+wss.on("connection", (ws, req) => {
+    const origin = req.headers.origin;
+    
+    if (origin !== "https://funmatsu.github.io") {
+        console.log("🚫 Blocked WebSocket connection from:", origin);
+        ws.close();
+        return;
+    }
+
     console.log("✅ WebSocket client connected!");
 
     ws.on("message", (message) => {
-        const parsedMessage = JSON.parse(message);
-        console.log(`📩 Received message from ${parsedMessage.username}: ${parsedMessage.message}`);
-
-        wss.clients.forEach(client => {
-            if (client.readyState === WebSocket.OPEN) {
-                client.send(JSON.stringify({
-                    username: parsedMessage.username, 
-                    message: parsedMessage.message
-                }));
-            }
-        });
+        console.log(`📩 Received message: ${message}`);
+        ws.send(`Echo: ${message}`);
     });
 
     ws.on("close", () => console.log("❌ WebSocket client disconnected"));
 });
+
 
 // app.use(cors({ origin: "https://funmatsu.github.io" }));
 const mysql = require('mysql2');
