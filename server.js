@@ -52,44 +52,6 @@ app.options('/', cors(corsOptions));
 
 app.use(express.json());
 
-app.use((req, res, next) => {
-    res.header("Access-Control-Allow-Origin", "https://funmatsu.github.io");
-    res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
-    res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
-    
-    if (req.method === "OPTIONS") {
-        console.log("received preflight checks!");
-        return res.sendStatus(200); // ✅ Respond to preflight checks
-    }
-
-    next();
-});
-// ✅ Create an HTTP server from Express
-const server = https.createServer(app);
-
-// ✅ Attach WebSockets to the same Express server
-const wss = new WebSocket.Server({ server });
-
-wss.on("connection", (ws, req) => {
-    const origin = req.headers.origin;
-    
-    if (origin !== "https://funmatsu.github.io") {
-        console.log("🚫 Blocked WebSocket connection from:", origin);
-        ws.close();
-        return;
-    }
-
-    console.log("✅ WebSocket client connected!");
-
-    ws.on("message", (message) => {
-        console.log(`📩 Received message: ${message}`);
-        ws.send(`Echo: ${message}`);
-    });
-
-    ws.on("close", () => console.log("❌ WebSocket client disconnected"));
-});
-
-
 // app.use(cors({ origin: "https://funmatsu.github.io" }));
 const mysql = require('mysql2');
 console.log(process.env.DB_PASS);
@@ -497,11 +459,11 @@ app.delete('/messages', (req, res) => {
 
 // ✅ Start the Server
 const PORT = process.env.PORT || 3000;
-// app.listen(PORT, () => {
-//     console.log("🚀 Listening to port", PORT);
-// });
+app.listen(PORT, () => {
+    console.log("🚀 Listening to port", PORT);
+});
 
 // ✅ Start the Express & WebSocket Server on Railway's assigned port
-server.listen(PORT, () => {
-    console.log(`🚀 Express & WebSocket Server running on port ${PORT}`);
-});
+// server.listen(PORT, () => {
+//     console.log(`🚀 Express & WebSocket Server running on port ${PORT}`);
+// });
