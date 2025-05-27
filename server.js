@@ -470,9 +470,9 @@ app.delete('/messages', (req, res) => {
 
 // ✅ Start the Server
 const PORT = 3000;
-app.listen(PORT, () => {
-    console.log("🚀 Listening to port", PORT);
-});
+// app.listen(PORT, () => {
+//     console.log("🚀 Listening to port", PORT);
+// });
 
 const PORT_soc = process.env.PORT || 443;
 const https = require("https");
@@ -482,10 +482,6 @@ const WebSocket = require("ws");
 const server = https.createServer(app); // ✅ Create HTTPS server
 
 const wss = new WebSocket.Server({ server });
-
-server.listen(process.env.PORT || 443, () => {
-    console.log("✅ Secure WebSocket server running!");
-});
 
 wss.on("connection", (ws) => {
     console.log(`✅ New client connected!`);
