@@ -474,27 +474,27 @@ app.listen(PORT, () => {
     console.log("🚀 Listening to port", PORT);
 });
 
-// const PORT_soc = process.env.PORT || 443;
-// const WebSocket = require("ws");
-// const wss = new WebSocket.Server({ port: PORT_soc });
+const PORT_soc = process.env.PORT || 443;
+const WebSocket = require("ws");
+const wss = new WebSocket.Server({ port: PORT_soc });
 
-// wss.on("connection", (ws) => {
-//     console.log(`✅ New client connected! port: ${PORT_soc}`);
+wss.on("connection", (ws) => {
+    console.log(`✅ New client connected! port: ${PORT_soc}`);
 
-//     ws.on("message", (message) => {
-//         const parsedMessage = JSON.parse(message);
-//         console.log(`📩 Message from ${parsedMessage.username}:`, parsedMessage.message);
+    ws.on("message", (message) => {
+        const parsedMessage = JSON.parse(message);
+        console.log(`📩 Message from ${parsedMessage.username}:`, parsedMessage.message);
     
-//         wss.clients.forEach(client => {
-//             if (client.readyState === WebSocket.OPEN) {
-//                 client.send(JSON.stringify({
-//                     username: parsedMessage.username, 
-//                     message: parsedMessage.message
-//                 }));
-//             }
-//         });
-//     });
+        wss.clients.forEach(client => {
+            if (client.readyState === WebSocket.OPEN) {
+                client.send(JSON.stringify({
+                    username: parsedMessage.username, 
+                    message: parsedMessage.message
+                }));
+            }
+        });
+    });
     
 
-//     ws.on("close", () => console.log("❌ Client disconnected"));
-// });
+    ws.on("close", () => console.log("❌ Client disconnected"));
+});
