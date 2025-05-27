@@ -84,6 +84,11 @@ wss.on("connection", (ws, req) => {
     ws.on("message", (message) => {
         console.log(`📩 Received message: ${message}`);
         ws.send(`Echo: ${message}`);
+        wss.clients.forEach(client => {
+            if (client !== ws && client.readyState === WebSocket.OPEN) {
+                client.send(message);
+            }
+        });
     });
 
     ws.on("close", () => console.log("❌ WebSocket client disconnected"));
