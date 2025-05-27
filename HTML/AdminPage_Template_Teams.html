@@ -118,11 +118,11 @@
             document.getElementById("text-bar").addEventListener("keypress", function(event) {  
                 let msgString = `<strong>${username}:  </strong>` + document.getElementById("text-bar").value + `     <small>${new Date().toLocaleString()}</small>`;
                 if (event.key === "Enter" && document.getElementById("text-bar").value !== "") {
-                    // ws.send(JSON.stringify({
-                    //     username: username,  // ✅ Replace with actual logged-in user
-                    //     teamname: teamname,
-                    //     message: msgString
-                    //  })); // ✅ Send message via WebSocket
+                    ws.send(JSON.stringify({
+                        username: username,  // ✅ Replace with actual logged-in user
+                        teamname: teamname,
+                        message: msgString
+                     })); // ✅ Send message via WebSocket
                     storeToDB(msgString);
                     window.location.reload();
                     document.getElementById("text-bar").value = "";
