@@ -115,11 +115,11 @@
                 
             };
 
-            const socket = new WebSocket("wss://funmatsugithubio-production.up.railway.app");
+            // const socket = new WebSocket("wss://funmatsugithubio-production.up.railway.app");
 
-socket.onmessage = (event) => {
-    new Notification("New Message!", { body: event.data });
-};
+            // socket.onmessage = (event) => {
+            //     new Notification("New Message!", { body: event.data });
+            // };
 
 
             document.getElementById("text-bar").addEventListener("keypress", function(event) {  
@@ -131,6 +131,7 @@ socket.onmessage = (event) => {
                         message: msgString
                      })); // ✅ Send message via WebSocket
                     storeToDB(msgString);
+                    window.location.reload();
                     document.getElementById("text-bar").value = "";
                 }
             });
