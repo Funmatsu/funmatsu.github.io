@@ -125,7 +125,9 @@
                      })); // ✅ Send message via WebSocket
                     storeToDB(msgString);
 
-                    window.location.reload();
+                    setTimeout(() => {
+                        location.reload();
+                    }, 1000); // ✅ Reloads every 1 seconds
                     document.getElementById("text-bar").value = "";
                 }
             });
