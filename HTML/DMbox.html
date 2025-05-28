@@ -131,9 +131,7 @@
                         message: msgString
                      })); // ✅ Send message via WebSocket
                     storeToDB(msgString);
-                    setTimeout(() => {
-                        location.reload();
-                    }, 1000); // ✅ Reloads every 5 seconds
+                    setTimeout(() => {}, 2000); // ✅ Reloads every 5 seconds
                     window.location.reload();
                     document.getElementById("text-bar").value = "";
                 }
