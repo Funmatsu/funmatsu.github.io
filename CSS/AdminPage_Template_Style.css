@@ -17,9 +17,6 @@
     display: none;
 }
 
-/* #left-column:hover{
-    background-color: rgb(0, 117, 212);
-} */
 .general-buttons{
     display: flex;
     padding: 15px;
