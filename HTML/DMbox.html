@@ -211,7 +211,7 @@
                         target_user: teamname, 
                         message: message, // ✅ Only the message content
                         channel,
-                        created_at: new Date().toISOString()
+                        created_at: new Date().toLocaleTimeString("en-US", { hour12: true })
                     })
                 })
 
