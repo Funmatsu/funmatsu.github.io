@@ -146,14 +146,16 @@
             function generateDiv() {
                 var newDiv = document.createElement("div");
                 const message = document.getElementById("text-bar").value;
-                console.log("🚀 Sending POST request to backend at:", new Date().toISOString());
+                let timeNow = new Date().toISOString()
+                console.log("🚀 Sending POST request to backend at:", timeNow);
                 fetch("https://funmatsugithubio-production.up.railway.app/messages_teams", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ 
                         username, 
                         teamname, 
-                        message: document.getElementById("text-bar").value // ✅ Only the message content
+                        message: document.getElementById("text-bar").value, // ✅ Only the message content
+                        timeNow
                     })
                 })
 
@@ -200,7 +202,8 @@
 
             function storeToDB(msg){
                 const message = msg;
-                console.log("🚀 Sending POST request to backend at:", new Date().toISOString());
+                let timeNow = new Date().toISOString();
+                console.log("🚀 Sending POST request to backend at:", timeNow);
                 fetch("https://funmatsugithubio-production.up.railway.app/messages_teams", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
@@ -208,7 +211,8 @@
                         username, 
                         teamname, 
                         channel,
-                        message: message // ✅ Only the message content
+                        message: message, // ✅ Only the message content
+                        timeNow
                     })
                 })
 
