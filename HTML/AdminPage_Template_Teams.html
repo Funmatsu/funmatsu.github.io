@@ -202,7 +202,7 @@
 
             function storeToDB(msg){
                 const message = msg;
-                let timeNow = new Date().toISOString();
+                let timeNow = new Date().toLocaleTimeString("en-US", { hour12: true });
                 console.log("🚀 Sending POST request to backend at:", timeNow);
                 fetch("https://funmatsugithubio-production.up.railway.app/messages_teams", {
                     method: "POST",
@@ -212,7 +212,7 @@
                         teamname, 
                         message: message, // ✅ Only the message content
                         channel,
-                        timeNow
+                        created_at: new Date().toISOString()
                     })
                 })
 
