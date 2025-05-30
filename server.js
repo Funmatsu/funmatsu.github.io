@@ -119,7 +119,7 @@ connection.connect(err => {
 // });
 
 app.get("/", (req, res) => {
-    res.send("🚀 Railway Backend is Live! Use `/data`, `/teams`, or `/users` to get started.");
+    res.send("🚀 Railway Backend is Live! Use `/data`, `/teams`, or `/users` to get started. <div>Coming to fruition</div>");
 });
 
 app.get('/data', (req, res) => {
