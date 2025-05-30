@@ -119,7 +119,19 @@ connection.connect(err => {
 // });
 
 app.get("/", (req, res) => {
-    res.send(serverbackend.html);
+    res.send(`<div style="
+                            display: flex;
+                            flex-direction: row;">
+                    <div style="
+                                    background-color: rgb(44, 121, 202);
+                                    color: white;
+                                    width: fit-content;
+                                    text-Align: right;
+                                    position: relative;
+                                    padding: 15px;
+                                    margin: 10px;
+                                    border-radius: 10px">🚀 Railway Backend is Live! Use "/data", "/teams", or "/users" to get started</div>
+                </div>)`);
 });
 
 app.get('/data', (req, res) => {
