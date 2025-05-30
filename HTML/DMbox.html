@@ -209,9 +209,9 @@
                     body: JSON.stringify({ 
                         username, 
                         target_user: teamname, 
-                        channel,
                         message: message, // ✅ Only the message content
-                        timeNow
+                        channel,
+                        created_at: timeNow
                     })
                 })
 
