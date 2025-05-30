@@ -119,16 +119,7 @@ connection.connect(err => {
 // });
 
 app.get("/", (req, res) => {
-    res.send(`<div style="
-                background-color: rgb(44, 121, 202);
-                color: white;
-                widtH: fit-content;
-                text-Align: right;
-                position: relative;
-                padding: 15px;
-                margin: 10px;">🚀 Railway Backend is Live! Use "/data", "/teams", or "/users" to get started</div>. 
-        <div>Coming to fruition</div>
-        `);
+    res.send(serverbackend.html);
 });
 
 app.get('/data', (req, res) => {
