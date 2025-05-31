@@ -125,7 +125,7 @@
                      })); // ✅ Send message via WebSocket
                     storeToDB(msgString);
                     document.getElementById("text-bar").value = msgString;
-                    sendMsg();
+                    sendMsg(username);
                     // setTimeout(() => {
                     //     location.reload();
                     // }, 100); // ✅ Reloads every 0.1 seconds
