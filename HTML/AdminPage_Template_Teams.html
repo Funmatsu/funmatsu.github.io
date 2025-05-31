@@ -107,11 +107,12 @@
                 const parsedMessage = JSON.parse(receivedMessage); // ✅ Parse message as JSON
                 document.getElementById("text-bar").value = parsedMessage.message;
                 
-                sendMsg(event.data.username);
-                window.location.reload();
-
-                document.getElementById("text-bar").value = "";
-                scrollToBottom();
+                if(parsedMessage.teamname === teamname){
+                    sendMsg();
+                    window.location.reload();
+                    document.getElementById("text-bar").value = "";
+                    scrollToBottom();
+                }
                 
             };
 

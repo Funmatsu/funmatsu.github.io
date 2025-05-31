@@ -107,12 +107,12 @@
                 const parsedMessage = JSON.parse(receivedMessage); // ✅ Parse message as JSON
                 document.getElementById("text-bar").value = parsedMessage.message;
                 
-                sendMsg();
-                window.location.reload();
-
-                document.getElementById("text-bar").value = "";
-                scrollToBottom();
-                
+                if(parsedMessage.teamname === teamname){
+                    sendMsg();
+                    window.location.reload();
+                    document.getElementById("text-bar").value = "";
+                    scrollToBottom();
+                }
             };
 
             // const socket = new WebSocket("wss://funmatsugithubio-production.up.railway.app");
