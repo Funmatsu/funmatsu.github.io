@@ -195,9 +195,22 @@
                 newDiv.style.borderRadius = "10px";
                 newDiv.style.padding = "15px";
                 newDiv.style.margin = "10px";
+                msgcontainer.style.display = "flex";
+                msgcontainer.style.flexDirection = "column";
+                
+                if(username === username_sent){
+                    newDiv.style.alignSelf = "flex-end";
+                    newDiv.style.backgroundColor = "rgb(44, 121, 202)";
+                }
+                else{
+                    newDiv.style.alignSelf = "flex-start";
+                    newDiv.style.color = "black";
+                    newDiv.style.backgroundColor = "rgb(212, 212, 212)";
+                }
                 
                 newDiv.className = "generated";
                 document.querySelector("#div-custom-body").appendChild(newDiv);
+                scrollToBottom();
             }
 
             function storeToDB(msg){
