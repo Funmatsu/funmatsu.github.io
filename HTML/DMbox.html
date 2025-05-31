@@ -130,7 +130,6 @@
                         message: msgString
                      })); // ✅ Send message via WebSocket
                     storeToDB(msgString);
-                    document.getElementById("text-bar").value = msgString;
                     sendMsg(username);
                     // setTimeout(() => {
                     //     location.reload();
@@ -197,7 +196,7 @@
                 newDiv.style.margin = "10px";
                 msgcontainer.style.display = "flex";
                 msgcontainer.style.flexDirection = "column";
-                
+
                 if(username === username_sent){
                     newDiv.style.alignSelf = "flex-end";
                     newDiv.style.backgroundColor = "rgb(44, 121, 202)";
