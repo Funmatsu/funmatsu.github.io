@@ -109,7 +109,6 @@
                 
                 if(parsedMessage.teamname === teamname){
                     sendMsg();
-                    window.location.reload();
                     document.getElementById("text-bar").value = "";
                     scrollToBottom();
                 }
@@ -126,9 +125,9 @@
                      })); // ✅ Send message via WebSocket
                     storeToDB(msgString);
 
-                    setTimeout(() => {
-                        location.reload();
-                    }, 100); // ✅ Reloads every 0.1 seconds
+                    // setTimeout(() => {
+                    //     location.reload();
+                    // }, 100); // ✅ Reloads every 0.1 seconds
                     document.getElementById("text-bar").value = "";
                 }
             });
