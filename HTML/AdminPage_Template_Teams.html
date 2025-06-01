@@ -105,6 +105,7 @@
                 console.log("📥 Incoming message:", event.data);
                 const receivedMessage = await event.data.text();
                 const parsedMessage = JSON.parse(receivedMessage); // ✅ Parse message as JSON
+                let tempTextBar = document.getElementById("text-bar").value;
                 document.getElementById("text-bar").value = parsedMessage.message;
                 
                 if(parsedMessage.teamname === teamname){
@@ -112,7 +113,8 @@
                     document.getElementById("text-bar").value = "";
                     scrollToBottom();
                 }
-                
+                else
+                document.getElementById("text-bar").value = tempTextBar;
             };
 
             document.getElementById("text-bar").addEventListener("keypress", function(event) {  
@@ -207,8 +209,10 @@
                 }
                 newDiv.className = "generated";
                 msgcontainer.appendChild(newDiv);
+                if(teamname === msg.teamname)
                 document.querySelector("#div-custom-body").appendChild(msgcontainer);
                 scrollToBottom()
+                document.getElementById("text-bar").value = "";
             }
 
             function storeToDB(msg){

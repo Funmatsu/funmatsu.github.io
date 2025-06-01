@@ -112,6 +112,8 @@
                     document.getElementById("text-bar").value = "";
                     scrollToBottom();
                 }
+                else
+                document.getElementById("text-bar").value = tempTextBar;
             };
 
             // const socket = new WebSocket("wss://funmatsugithubio-production.up.railway.app");
@@ -216,6 +218,7 @@
                 
                 newDiv.className = "generated";
                 msgcontainer.appendChild(newDiv);
+                if(teamname === msg.teamname)
                 document.querySelector("#div-custom-body").appendChild(msgcontainer);
                 scrollToBottom();
             }
