@@ -158,9 +158,11 @@
                         newDiv.appendChild(newDivImg);
                         newDivImg.src = url;
                         // document.getElementById("div-custom-body").style.display = "block";
-
+                        newDiv.innerHTML = `<strong>${username}: </strong>`;
                         console.log("✅ Image detected and processed!");
                         document.querySelector("#div-custom-body").appendChild(newDiv);
+                        newDiv.innerHTML = `<small>${new Date.toISOString()}</small>`;
+                        scrollToBottom();
                         event.preventDefault(); // ❌ Prevent default text paste
                     }
                 }
