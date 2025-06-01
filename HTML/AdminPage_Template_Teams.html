@@ -136,6 +136,26 @@
                 }
             });
 
+            document.getElementById("text-bar").addEventListener("paste", (event) => {
+                const items = event.clipboardData.items;
+
+                for (let i = 0; i < items.length; i++) {
+                    console.log("📋 Pasted Type:", items[i].type); // 🔍 Check MIME type
+
+                    if (items[i].type.startsWith("image")) {
+                        const blob = items[i].getAsFile(); // ✅ Extract image Blob
+                        const url = URL.createObjectURL(blob);
+                        
+                        document.getElementById("pasted-image").src = url;
+                        document.getElementById("pasted-image").style.display = "block";
+
+                        console.log("✅ Image detected and processed!");
+                        event.preventDefault(); // ❌ Prevent default text paste
+                    }
+                }
+            });
+
+
             document.getElementById("admin-page-header").innerHTML = teamname + " | " + channel;
             document.getElementById("team-info").innerHTML = `You: <p style='color: lightgreen;'>${username}<br><hr></p>`;
 
