@@ -110,6 +110,7 @@
                 
                 if(parsedMessage.teamname === teamname){
                     sendMsg();
+                    if(parsedMessage.username === username)
                     document.getElementById("text-bar").value = "";
                     scrollToBottom();
                 }
