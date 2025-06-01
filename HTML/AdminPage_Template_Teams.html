@@ -163,6 +163,8 @@
                         console.log("✅ Image detected and processed!");
                         document.querySelector("#div-custom-body").appendChild(newDiv);
                         scrollToBottom();
+                        console.log(newDiv.innerHTML);
+                        // storeToDB(newDiv.innerHTML);
                         event.preventDefault(); // ❌ Prevent default text paste
                     }
                 }
