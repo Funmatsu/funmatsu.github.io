@@ -124,6 +124,7 @@
                         message: msgString
                      })); // ✅ Send message via WebSocket
                     storeToDB(msgString);
+                    document.getElementById("text-bar").value = msgString;
                     sendMsg(username);
                     // setTimeout(() => {
                     //     location.reload();
@@ -176,6 +177,13 @@
 
             function sendMsg(username_sent) {
                 var newDiv = document.createElement("div");
+                var msgcontainer = document.createElement("div");
+                msgcontainer.id = "msgContainer";
+                msgcontainer.style.width = "75vw";
+                msgcontainer.style.height = "10vh";
+                msgcontainer.style.backgroundColor = "white";
+                msgcontainer.style.display = "flex";
+                msgcontainer.style.flexDirection = "column";
                 const message = document.getElementById("text-bar").value;
 
                 newDiv.innerHTML = message;
@@ -187,8 +195,7 @@
                 newDiv.style.borderRadius = "10px";
                 newDiv.style.padding = "15px";
                 newDiv.style.margin = "10px";
-                newDiv.style.display = "flex";
-                newDiv.style.flexDirection = "column";
+                
                 if(username === username_sent){
                     newDiv.style.alignSelf = "flex-end";
                     newDiv.style.backgroundColor = "rgb(44, 121, 202)";
@@ -199,7 +206,8 @@
                     newDiv.style.backgroundColor = "rgb(212, 212, 212)";
                 }
                 newDiv.className = "generated";
-                document.querySelector("#div-custom-body").appendChild(newDiv);
+                msgcontainer.appendChild(newDiv);
+                document.querySelector("#div-custom-body").appendChild(msgcontainer);
                 scrollToBottom()
             }
 

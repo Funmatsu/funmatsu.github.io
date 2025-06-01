@@ -183,6 +183,13 @@
 
             function sendMsg() {
                 var newDiv = document.createElement("div");
+                var msgcontainer = document.createElement("div");
+                msgcontainer.id = "msgContainer";
+                msgcontainer.style.width = "75vw";
+                msgcontainer.style.height = "10vh";
+                msgcontainer.style.backgroundColor = "white";
+                msgcontainer.style.display = "flex";
+                msgcontainer.style.flexDirection = "column";
                 const message = document.getElementById("text-bar").value;
 
                 newDiv.innerHTML = message;
@@ -208,7 +215,8 @@
                 }
                 
                 newDiv.className = "generated";
-                document.querySelector("#div-custom-body").appendChild(newDiv);
+                msgcontainer.appendChild(newDiv);
+                document.querySelector("#div-custom-body").appendChild(msgcontainer);
                 scrollToBottom();
             }
 
