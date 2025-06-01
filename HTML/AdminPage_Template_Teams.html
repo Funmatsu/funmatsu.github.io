@@ -112,10 +112,10 @@
                     sendMsg();
                     scrollToBottom();
                 }
-                
-                // document.getElementById("text-bar").value = tempTextBar;
+                document.getElementById("text-bar").value = "";
+                document.getElementById("text-bar").value = tempTextBar;
                 // if(parsedMessage.username === username)
-                //     document.getElementById("text-bar").value = "";
+                    
             };
 
             document.getElementById("text-bar").addEventListener("keypress", function(event) {  
