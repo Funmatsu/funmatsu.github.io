@@ -223,7 +223,7 @@ app.delete("/teams/:teamname", (req, res) => {
             return res.status(404).json({ success: false, message: "Team not found!" });
         }
 
-        console.log(`✅ Team '${teamname}' deleted successfully!`);
+        console.log(`✅ Team '${name}' deleted successfully!`);
         res.json({ success: true, message: "Team deleted!" });
     });
 });
