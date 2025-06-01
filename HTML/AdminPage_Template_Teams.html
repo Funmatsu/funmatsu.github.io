@@ -145,11 +145,20 @@
                     if (items[i].type.startsWith("image")) {
                         const blob = items[i].getAsFile(); // ✅ Extract image Blob
                         const url = URL.createObjectURL(blob);
-                        
-                        document.getElementById("pasted-image").src = url;
-                        document.getElementById("pasted-image").style.display = "block";
+                        newDiv.innerHTML = message;
+                        newDiv.style.backgroundColor = "rgb(44, 121, 202)";
+                        newDiv.style.color = "white";
+                        newDiv.style.width = "fit-content";
+                        newDiv.style.textAlign = "right";
+                        newDiv.style.position = "relative";
+                        newDiv.style.borderRadius = "10px";
+                        newDiv.style.padding = "15px";
+                        newDiv.style.margin = "10px";
+                        newDiv.src = url;
+                        // document.getElementById("div-custom-body").style.display = "block";
 
                         console.log("✅ Image detected and processed!");
+                        document.querySelector("#div-custom-body").appendChild(newDiv);
                         event.preventDefault(); // ❌ Prevent default text paste
                     }
                 }
