@@ -149,7 +149,7 @@
                         let newDivImg = document.createElement('img');
                         newDivImg.src = url;
                         newDiv.appendChild(newDivImg);
-                        newDiv.innerHTML += `<strong>${username}: </strong>`;
+                        newDiv.innerHTML += `<br><strong>${username}: </strong>`;
                         newDiv.innerHTML += `<small>${new Date().toISOString()}</small>`;
                         console.log("✅ Image detected and processed!");
                         document.getElementById("text-bar").value = newDiv.innerHTML;
@@ -159,10 +159,10 @@
                             message: newDiv.innerHTML
                         })); // ✅ Send message via WebSocket
                         sendMsg(username);
-                        scrollToBottom();
                         storeToDB(newDiv.innerHTML);
                         // storeToDB(newDiv.innerHTML);
                         event.preventDefault(); // ❌ Prevent default text paste
+                        scrollToBottom();
                     }
                 }
             });
@@ -216,6 +216,7 @@
                 msgcontainer.id = "msgContainer";
                 msgcontainer.style.width = "75vw";
                 msgcontainer.style.height = "fit-content";
+                msgcontainer.style.maxHeight = "100vh";
                 msgcontainer.style.backgroundColor = "white";
                 msgcontainer.style.display = "flex";
                 msgcontainer.style.flexDirection = "column";
@@ -305,6 +306,7 @@
                         msgcontainer.id = "msgContainer";
                         msgcontainer.style.width = "75vw";
                         msgcontainer.style.height = "fit-content";
+                        msgcontainer.style.maxHeight = "100vh";
                         msgcontainer.style.backgroundColor = "white";
                         msgcontainer.style.display = "flex";
                         msgcontainer.style.flexDirection = "column";
