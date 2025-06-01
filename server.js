@@ -110,6 +110,7 @@ const connection = mysql.createConnection({
 connection.connect(err => {
     if (err) throw err;
     console.log("✅ Database connected!");
+    window.location.reload();
 });
 
 
@@ -208,11 +209,11 @@ app.get("/teams", (req, res) => {
 });
 
 app.delete("/teams/:teamname", (req, res) => {
-    const { teamname } = req.params;
+    const { name } = req.params;
     
     const sql = "DELETE FROM teams WHERE name = ?";
     
-    connection.query(sql, [teamname], (err, result) => {
+    connection.query(sql, [name], (err, result) => {
         if (err) {
             console.error("❌ Error deleting team:", err);
             return res.status(500).json({ success: false, message: "Internal Server Error" });
