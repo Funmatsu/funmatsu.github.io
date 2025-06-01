@@ -114,8 +114,8 @@
                 }
                 
                 document.getElementById("text-bar").value = tempTextBar;
-                if(parsedMessage.username === username)
-                    document.getElementById("text-bar").value = "";
+                // if(parsedMessage.username === username)
+                //     document.getElementById("text-bar").value = "";
             };
 
             document.getElementById("text-bar").addEventListener("keypress", function(event) {  
@@ -202,6 +202,7 @@
                 if(username === username_sent){
                     newDiv.style.alignSelf = "flex-end";
                     newDiv.style.backgroundColor = "rgb(44, 121, 202)";
+                    document.getElementById("text-bar").value = "";
                 }
                 else{
                     newDiv.style.alignSelf = "flex-start";
