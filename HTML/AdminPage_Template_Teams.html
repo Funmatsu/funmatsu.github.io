@@ -154,10 +154,11 @@
                         newDiv.style.borderRadius = "10px";
                         newDiv.style.padding = "15px";
                         newDiv.style.margin = "10px";
+                        newDiv.innerHTML += `<strong>${username}: </strong>`;
                         let newDivImg = document.createElement('img');
                         newDivImg.src = url;
                         newDiv.appendChild(newDivImg);
-                        newDiv.innerHTML += `<strong>${username}: </strong>`;
+                        
                         newDiv.innerHTML += `<small>${new Date().toISOString()}</small>`;
                         // document.getElementById("div-custom-body").style.display = "block";
                         console.log("✅ Image detected and processed!");
