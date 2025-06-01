@@ -109,11 +109,11 @@
                 
                 if(parsedMessage.teamname === teamname){
                     sendMsg();
-                    document.getElementById("text-bar").value = "";
+                    // document.getElementById("text-bar").value = "";
                     scrollToBottom();
                 }
                 else
-                document.getElementById("text-bar").value = tempTextBar;
+                document.getElementById("text-bar").value = "";
             };
 
             // const socket = new WebSocket("wss://funmatsugithubio-production.up.railway.app");
