@@ -146,21 +146,7 @@
                         const blob = items[i].getAsFile(); // ✅ Extract image Blob
                         const url = URL.createObjectURL(blob);
                         let newDiv = document.createElement('div');
-                        var msgcontainer = document.createElement("div");
-                        msgcontainer.id = "msgContainer";
-                        msgcontainer.style.width = "75vw";
-                        msgcontainer.style.height = "fit-content";
-                        msgcontainer.style.backgroundColor = "white";
-                        msgcontainer.style.display = "flex";
-                        msgcontainer.style.flexDirection = "column";
-                        newDiv.style.backgroundColor = "rgb(44, 121, 202)";
-                        newDiv.style.color = "white";
-                        newDiv.style.width = "fit-content";
-                        newDiv.style.textAlign = "right";
-                        newDiv.style.position = "relative";
-                        newDiv.style.borderRadius = "10px";
-                        newDiv.style.padding = "15px";
-                        newDiv.style.margin = "10px";
+                        // var msgcontainer = document.createElement("div");
                         let newDivImg = document.createElement('img');
                         newDivImg.src = url;
                         newDiv.appendChild(newDivImg);
@@ -168,9 +154,13 @@
                         newDiv.innerHTML += `<small>${new Date().toISOString()}</small>`;
                         // document.getElementById("div-custom-body").style.display = "block";
                         console.log("✅ Image detected and processed!");
-                        msgcontainer.appendChild(newDiv);
-                        document.querySelector("#div-custom-body").appendChild(msgcontainer);
-                        
+                        document.getElementById("text-bar").value = newDiv.innerHTML;
+                        ws.send(JSON.stringify({
+                            username: username,  // ✅ Replace with actual logged-in user
+                            teamname: teamname,
+                            message: newDiv.innerHTML
+                        })); // ✅ Send message via WebSocket
+                        sendMsg();
                         scrollToBottom();
                         storeToDB(newDiv.innerHTML);
                         // storeToDB(newDiv.innerHTML);
@@ -227,7 +217,7 @@
                 var msgcontainer = document.createElement("div");
                 msgcontainer.id = "msgContainer";
                 msgcontainer.style.width = "75vw";
-                msgcontainer.style.height = "10vh";
+                msgcontainer.style.height = "fit-content";
                 msgcontainer.style.backgroundColor = "white";
                 msgcontainer.style.display = "flex";
                 msgcontainer.style.flexDirection = "column";
@@ -316,7 +306,7 @@
                         var msgcontainer = document.createElement("div");
                         msgcontainer.id = "msgContainer";
                         msgcontainer.style.width = "75vw";
-                        msgcontainer.style.height = "fit_content";
+                        msgcontainer.style.height = "fit-content";
                         msgcontainer.style.backgroundColor = "white";
                         msgcontainer.style.display = "flex";
                         msgcontainer.style.flexDirection = "column";
