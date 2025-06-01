@@ -110,7 +110,7 @@ const connection = mysql.createConnection({
 connection.connect(err => {
     if (err) throw err;
     console.log("✅ Database connected!");
-    window.location.reload();
+    // window.location.reload();
 });
 
 
