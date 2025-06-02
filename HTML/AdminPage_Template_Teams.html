@@ -120,10 +120,11 @@
                     sendMsg();
                     if(parsedMessage.username === username)
                     document.getElementById("text-bar").value = "";
+                    else
+                    document.getElementById("text-bar").value = tempTextBar;
                     scrollToBottom();
                 }
                 
-                document.getElementById("text-bar").value = tempTextBar;
                     
             };
 
