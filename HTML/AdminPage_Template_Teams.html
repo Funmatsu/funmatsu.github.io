@@ -135,18 +135,21 @@
                     storeToDB(msgString);
                     document.getElementById("text-bar").value = msgString;
                     sendMsg(username);
-                    // setTimeout(() => {
-                    //     location.reload();
-                    // }, 100); // ✅ Reloads every 0.1 seconds
-                    // document.getElementById("text-bar").value = "";
                 }
             });
 
             document.getElementById("send-msg").addEventListener("click", () => {
                 let msgString = `<strong>${username}:  </strong>` + document.getElementById("text-bar").value + `     <small>${new Date().toLocaleString()}</small>`;
-                storeToDB(msgString);
-                document.getElementById("text-bar").value = msgString;
-                sendMsg(username);
+                if (event.key === "Enter" && document.getElementById("text-bar").value !== "") {
+                    ws.send(JSON.stringify({
+                        username: username,  // ✅ Replace with actual logged-in user
+                        teamname: teamname,
+                        message: msgString
+                     })); // ✅ Send message via WebSocket
+                    storeToDB(msgString);
+                    document.getElementById("text-bar").value = msgString;
+                    sendMsg(username);
+                }
             })
             function uploadImage(blob){
                 const url = URL.createObjectURL(blob);
