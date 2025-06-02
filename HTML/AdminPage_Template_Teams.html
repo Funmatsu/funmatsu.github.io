@@ -118,11 +118,12 @@
                 
                 if(parsedMessage.teamname === teamname){
                     sendMsg();
+                    if(parsedMessage.username === username)
+                    document.getElementById("text-bar").value = "";
                     scrollToBottom();
                 }
-                // document.getElementById("text-bar").value = "";
+                else
                 document.getElementById("text-bar").value = tempTextBar;
-                // if(parsedMessage.username === username)
                     
             };
 

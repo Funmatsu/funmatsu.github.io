@@ -296,7 +296,7 @@
                 msgcontainer.id = "msgContainer";
                 msgcontainer.style.width = "75vw";
                 msgcontainer.style.height = "fit-content";
-                msgcontainer.style.maxHeight = "50vh";
+                msgcontainer.style.maxHeight = "100vh";
                 msgcontainer.style.backgroundColor = "white";
                 msgcontainer.style.display = "flex";
                 msgcontainer.style.flexDirection = "column";
@@ -311,9 +311,7 @@
                 newDiv.style.borderRadius = "10px";
                 newDiv.style.padding = "15px";
                 newDiv.style.margin = "10px";
-                newDiv.style.display = "flex";
-                newDiv.style.flexDirection = "column";
-
+                
                 if(username === username_sent){
                     newDiv.style.alignSelf = "flex-end";
                     newDiv.style.backgroundColor = "rgb(44, 121, 202)";
@@ -324,12 +322,12 @@
                     newDiv.style.color = "black";
                     newDiv.style.backgroundColor = "rgb(212, 212, 212)";
                 }
-                
                 newDiv.className = "generated";
                 msgcontainer.appendChild(newDiv);
                 // if(teamname === msg.teamname)
                 document.querySelector("#div-custom-body").appendChild(msgcontainer);
-                scrollToBottom();
+                scrollToBottom()
+                // document.getElementById("text-bar").value = "";
             }
 
             function storeToDB(msg){
