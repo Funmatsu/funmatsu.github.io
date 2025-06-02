@@ -45,6 +45,8 @@
                         <img id="add-image" src="../blue_camera_icon.png">
                     </button>
                     <button id="send-msg">Send</button>
+                    <button id="emojis">😀</button>
+                    <div id="emoji-container" style="display: none;">😀 😃 😄 😁 😆 😅 🤣 😂 🙂 🙃 😉 😊 😇 🥰 😍 🤩 😘 😗 ☺ 😚 😙 🥲 😋 😛 😜 🤪 😝 🤑 🤗 🤭 🤫 🤔 🤐 🤨 😐 😑 😶 😏 😒 🙄 😬 🤥 😌 😔 😪 🤤 😴 😷 🤒 🤕 🤢 🤮 🤧 🥵 🥶 🥴 😵 🤯 🤠 🥳 🥸 😎 🤓 🧐 😕 😟 🙁 ☹ 😮 😯 😲 😳 🥺 😦 😧 😨 😰 😥 😢 😭 😱 😖 😣 😞 😓 😩 😫 🥱 😤 😡 😠 🤬 😈 👿 💀 ☠ 💩 🤡 👹 👺 👻 👽 👾 🤖 😺 😸 😹 😻 😼 😽 🙀 😿 😾 💋 👋 🤚 🖐 ✋ 🖖 👌 🤏 ✌ 🤞 🤟 🤘 🤙 👈 👉 👆 🖕 👇 ☝ 👍 👎 ✊ 👊 🤛 🤜 👏 🙌 👐 🤲 🤝 🙏 ✍ 💅 🤳 💪 🦾 🦿 🦵 🦶 👂 🦻 👃 🧠</div>
                 </div>
             </div>
             <div id="pop-up">
@@ -300,14 +302,12 @@
                 scrollableDiv.scrollTop = scrollableDiv.scrollHeight;
             }
             
-            // function clearMessages() {
-            //     fetch("https://funmatsugithubio-production.up.railway.app/messages", {
-            //         method: "DELETE",
-            //     })
-            //     .then(response => response.json())
-            //     .then(data => console.log(data.message)) // Confirm deletion
-            //     .catch(error => console.error("❌ Error:", error));
-            // }
+            document.getElementById("emojis").addEventListener("click", () => {
+                if(document.getElementById("emoji-container").style.display === "none")
+                document.getElementById("emoji-container").style.display = "block";
+                else
+                document.getElementById("emoji-container").style.display = "none";
+            });
 
             function fetchMessages() {
                 fetch(`https://funmatsugithubio-production.up.railway.app/messages_teams/${teamname}/${channel}`)
