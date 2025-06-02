@@ -154,9 +154,19 @@
                 }
             })
             function uploadImage(blob){
-                const url = URL.createObjectURL(blob);
+                const reader = new FileReader();
                 let newDiv = document.createElement('div');
                 let newDivImg = document.createElement('img');
+                
+                let url;
+                if (blob) {
+                    reader.onload = () => {
+                        url = reader.result; // 🔥 Convert to Base64
+                        console.log(url);
+                    }
+                    
+                    reader.readAsDataURL(blob); // 🔥 Convert blob to Base64
+                }
                 newDivImg.src = url;
                 newDivImg.height = 150;
                 newDiv.appendChild(newDivImg);
@@ -195,8 +205,8 @@
 
             document.getElementById("fileInput").addEventListener("change", (event) => {
                 const imagefile = event.target.files[0]; // 📂 Get first selected file
-                const blob = new Blob([imagefile], {type: imagefile.type});
-                uploadImage(blob);
+                // const blob = new Blob([imagefile], {type: imagefile.type});
+                uploadImage(imagefile);
                 // if (file) {
                 //     console.log("✅ File selected:", file.name);
                 //     console.log("📏 File size:", file.size, "bytes");
