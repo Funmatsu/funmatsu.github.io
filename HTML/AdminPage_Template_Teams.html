@@ -167,7 +167,7 @@
                         newDivImg.height = 150;
                         newDiv.appendChild(newDivImg);
                         newDiv.innerHTML += `<br><strong>${username}: </strong>`;
-                        newDiv.innerHTML += `<small>${new Date().toISOString()}</small>`;
+                        newDiv.innerHTML += `${document.getElementById("text-bar").value}<small>${new Date().toISOString()}</small>`;
                         console.log("✅ Image detected and processed!");
                         document.getElementById("text-bar").value = newDiv.innerHTML;
                         ws.send(JSON.stringify({
