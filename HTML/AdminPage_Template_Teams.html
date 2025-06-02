@@ -38,8 +38,13 @@
         
             <div class="custom-body">
                 <div id="div-custom-body"></div>
-                <input id="text-bar" placeholder="message">
-                
+                <div class="text-bar-container">
+                    <input id="text-bar" placeholder="message" >
+                    <input type="file" id="fileInput" accept="image/*" style="display: none;" />
+                    <button id="upload-image" onclick="document.getElementById('fileInput').click();" >
+                        <img id="add-image" src="../blue_camera_icon.png">
+                    </button>
+                </div>
             </div>
             <div id="pop-up">
                 <div id="friend-addition-form">
