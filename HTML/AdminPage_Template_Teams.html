@@ -162,12 +162,13 @@
                 if (blob) {
                     reader.onload = () => {
                         url = reader.result; // 🔥 Convert to Base64
+                        newDivImg.src = url;
                         console.log(url);
                     }
                     
                     reader.readAsDataURL(blob); // 🔥 Convert blob to Base64
                 }
-                newDivImg.src = url;
+                
                 newDivImg.height = 150;
                 newDiv.appendChild(newDivImg);
                 newDiv.innerHTML += `<br><strong>${username}: </strong>`;
