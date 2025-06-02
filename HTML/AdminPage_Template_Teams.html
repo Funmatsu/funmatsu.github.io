@@ -176,13 +176,19 @@
             document.getElementById("admin-page-header").innerHTML = teamname + " | " + channel;
             document.getElementById("team-info").innerHTML = `You: <p style='color: lightgreen;'>${username}<br><hr></p>`;
 
-            // document.getElementById("text-bar").addEventListener("keypress", function(event) {
-            //     if (event.key === "Enter" && document.getElementById("text-bar").value !== "") {
-            //         generateDiv();S
-            //         scrollToBottom();
-            //     }
-            //     // document.getElementByClassName("custom-body").innnerText += "<br>";
-            // });
+            document.getElementById("fileInput").addEventListener("change", (event) => {
+                const file = event.target.files[0]; // 📂 Get first selected file
+                
+                if (file) {
+                    console.log("✅ File selected:", file.name);
+                    console.log("📏 File size:", file.size, "bytes");
+                    console.log("🖼️ File type:", file.type);
+
+                    // Process the file further (preview, upload, etc.)
+                } else {
+                    console.log("❌ No file selected.");
+                }
+            });
             
             function generateDiv() {
                 var newDiv = document.createElement("div");
