@@ -355,6 +355,13 @@
                 scrollableDiv.scrollTop = scrollableDiv.scrollHeight;
             }
             
+            document.getElementById("emojis").addEventListener("click", () => {
+                if(document.getElementById("emoji-container").style.display === "none")
+                document.getElementById("emoji-container").style.display = "block";
+                else
+                document.getElementById("emoji-container").style.display = "none";
+            });
+
             function clearMessages() {
                 fetch("https://funmatsugithubio-production.up.railway.app/messages", {
                     method: "DELETE",
