@@ -141,6 +141,28 @@
                 }
             });
 
+            function uploadImage(blob){
+                const url = URL.createObjectURL(blob);
+                let newDiv = document.createElement('div');
+                let newDivImg = document.createElement('img');
+                newDivImg.src = url;
+                newDiv.appendChild(newDivImg);
+                newDiv.innerHTML += `<br><strong>${username}: </strong>`;
+                newDiv.innerHTML += `<small>${new Date().toISOString()}</small>`;
+                console.log("✅ Image detected and processed!");
+                document.getElementById("text-bar").value = newDiv.innerHTML;
+                ws.send(JSON.stringify({
+                    username: username,  // ✅ Replace with actual logged-in user
+                    teamname: teamname,
+                    message: newDiv.innerHTML
+                })); // ✅ Send message via WebSocket
+                sendMsg(username);
+                storeToDB(newDiv.innerHTML);
+                // storeToDB(newDiv.innerHTML);
+                event.preventDefault(); // ❌ Prevent default text paste
+                scrollToBottom();
+            }
+
             document.getElementById("text-bar").addEventListener("paste", (event) => {
                 const items = event.clipboardData.items;
 
@@ -149,25 +171,7 @@
 
                     if (items[i].type.startsWith("image")) {
                         const blob = items[i].getAsFile(); // ✅ Extract image Blob
-                        const url = URL.createObjectURL(blob);
-                        let newDiv = document.createElement('div');
-                        let newDivImg = document.createElement('img');
-                        newDivImg.src = url;
-                        newDiv.appendChild(newDivImg);
-                        newDiv.innerHTML += `<br><strong>${username}: </strong>`;
-                        newDiv.innerHTML += `<small>${new Date().toISOString()}</small>`;
-                        console.log("✅ Image detected and processed!");
-                        document.getElementById("text-bar").value = newDiv.innerHTML;
-                        ws.send(JSON.stringify({
-                            username: username,  // ✅ Replace with actual logged-in user
-                            teamname: teamname,
-                            message: newDiv.innerHTML
-                        })); // ✅ Send message via WebSocket
-                        sendMsg(username);
-                        storeToDB(newDiv.innerHTML);
-                        // storeToDB(newDiv.innerHTML);
-                        event.preventDefault(); // ❌ Prevent default text paste
-                        scrollToBottom();
+                        uploadImage(blob)
                     }
                 }
             });
@@ -177,17 +181,18 @@
             document.getElementById("team-info").innerHTML = `You: <p style='color: lightgreen;'>${username}<br><hr></p>`;
 
             document.getElementById("fileInput").addEventListener("change", (event) => {
-                const file = event.target.files[0]; // 📂 Get first selected file
-                
-                if (file) {
-                    console.log("✅ File selected:", file.name);
-                    console.log("📏 File size:", file.size, "bytes");
-                    console.log("🖼️ File type:", file.type);
+                const imagefile = event.target.files[0]; // 📂 Get first selected file
+                const blob = new Blob([imagefile], {type: file.type});
+                uploadImage(blob);
+                // if (file) {
+                //     console.log("✅ File selected:", file.name);
+                //     console.log("📏 File size:", file.size, "bytes");
+                //     console.log("🖼️ File type:", file.type);
 
-                    // Process the file further (preview, upload, etc.)
-                } else {
-                    console.log("❌ No file selected.");
-                }
+                //     // Process the file further (preview, upload, etc.)
+                // } else {
+                //     console.log("❌ No file selected.");
+                // }
             });
             
             function generateDiv() {
