@@ -134,11 +134,43 @@
                         message: msgString
                      })); // ✅ Send message via WebSocket
                     storeToDB(msgString);
+                    document.getElementById("text-bar").value = msgString;
                     sendMsg(username);
                     // setTimeout(() => {
                     //     location.reload();
                     // }, 1000); // ✅ Reloads every 1 seconds
                     // document.getElementById("text-bar").value = "";
+                }
+            });
+
+            document.getElementById("text-bar").addEventListener("paste", (event) => {
+                const items = event.clipboardData.items;
+
+                for (let i = 0; i < items.length; i++) {
+                    console.log("📋 Pasted Type:", items[i].type); // 🔍 Check MIME type
+
+                    if (items[i].type.startsWith("image")) {
+                        const blob = items[i].getAsFile(); // ✅ Extract image Blob
+                        const url = URL.createObjectURL(blob);
+                        let newDiv = document.createElement('div');
+                        let newDivImg = document.createElement('img');
+                        newDivImg.src = url;
+                        newDiv.appendChild(newDivImg);
+                        newDiv.innerHTML += `<br><strong>${username}: </strong>`;
+                        newDiv.innerHTML += `<small>${new Date().toISOString()}</small>`;
+                        console.log("✅ Image detected and processed!");
+                        document.getElementById("text-bar").value = newDiv.innerHTML;
+                        ws.send(JSON.stringify({
+                            username: username,  // ✅ Replace with actual logged-in user
+                            teamname: teamname,
+                            message: newDiv.innerHTML
+                        })); // ✅ Send message via WebSocket
+                        sendMsg(username);
+                        storeToDB(newDiv.innerHTML);
+                        // storeToDB(newDiv.innerHTML);
+                        event.preventDefault(); // ❌ Prevent default text paste
+                        scrollToBottom();
+                    }
                 }
             });
 
@@ -190,7 +222,8 @@
                 var msgcontainer = document.createElement("div");
                 msgcontainer.id = "msgContainer";
                 msgcontainer.style.width = "75vw";
-                msgcontainer.style.height = "10vh";
+                msgcontainer.style.height = "fit-content";
+                msgcontainer.style.maxHeight = "100vh";
                 msgcontainer.style.backgroundColor = "white";
                 msgcontainer.style.display = "flex";
                 msgcontainer.style.flexDirection = "column";
@@ -211,6 +244,7 @@
                 if(username === username_sent){
                     newDiv.style.alignSelf = "flex-end";
                     newDiv.style.backgroundColor = "rgb(44, 121, 202)";
+                    document.getElementById("text-bar").value = "";
                 }
                 else{
                     newDiv.style.alignSelf = "flex-start";
@@ -280,7 +314,8 @@
                         var msgcontainer = document.createElement("div");
                         msgcontainer.id = "msgContainer";
                         msgcontainer.style.width = "75vw";
-                        msgcontainer.style.height = "10vh";
+                        msgcontainer.style.height = "fit-content";
+                        msgcontainer.style.maxHeight = "100vh";
                         msgcontainer.style.backgroundColor = "white";
                         msgcontainer.style.display = "flex";
                         msgcontainer.style.flexDirection = "column";
