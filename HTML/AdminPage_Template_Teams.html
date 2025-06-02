@@ -143,6 +143,9 @@
             });
 
             document.getElementById("send-msg").addEventListener("click", () => {
+                let msgString = `<strong>${username}:  </strong>` + document.getElementById("text-bar").value + `     <small>${new Date().toLocaleString()}</small>`;
+                storeToDB(msgString);
+                document.getElementById("text-bar").value = msgString;
                 sendMsg(username);
             })
             function uploadImage(blob){
