@@ -38,8 +38,16 @@
         
             <div class="custom-body">
                 <div id="div-custom-body"></div>
-                <input id="text-bar" placeholder="message">
-                
+                <div class="text-bar-container">
+                    <input id="text-bar" placeholder="message" >
+                    <input type="file" id="fileInput" accept="image/*" style="display: none;" />
+                    <button id="upload-image" onclick="document.getElementById('fileInput').click();" >
+                        <img id="add-image" src="../blue_camera_icon.png">
+                    </button>
+                    <button id="send-msg">Send</button>
+                    <button id="emojis">😀</button>
+                    <div id="emoji-container" style="display: none;">😀 😃 😄 😁 😆 😅 🤣 😂 🙂 🙃 😉 😊 😇 🥰 😍 🤩 😘 😗 ☺ 😚 😙 🥲 😋 😛 😜 🤪 😝 🤑 🤗 🤭 🤫 🤔 🤐 🤨 😐 😑 😶 😏 😒 🙄 😬 🤥 😌 😔 😪 🤤 😴 😷 🤒 🤕 🤢 🤮 🤧 🥵 🥶 🥴 😵 🤯 🤠 🥳 🥸 😎 🤓 🧐 😕 😟 🙁 ☹ 😮 😯 😲 😳 🥺 😦 😧 😨 😰 😥 😢 😭 😱 😖 😣 😞 😓 😩 😫 🥱 😤 😡 😠 🤬 😈 👿 💀 ☠ 💩 🤡 👹 👺 👻 👽 👾 🤖 😺 😸 😹 😻 😼 😽 🙀 😿 😾 💋 👋 🤚 🖐 ✋ 🖖 👌 🤏 ✌ 🤞 🤟 🤘 🤙 👈 👉 👆 🖕 👇 ☝ 👍 👎 ✊ 👊 🤛 🤜 👏 🙌 👐 🤲 🤝 🙏 ✍ 💅 🤳 💪 🦾 🦿 🦵 🦶 👂 🦻 👃 🧠</div>
+                </div>                
             </div>
             <div id="pop-up">
                 <div id="friend-addition-form">
@@ -143,6 +151,56 @@
                 }
             });
 
+            document.getElementById("send-msg").addEventListener("click", () => {
+                let msgString = `<strong>${username}:  </strong>` + document.getElementById("text-bar").value + `     <small>${new Date().toLocaleString()}</small>`;
+                if (event.key === "Enter" && document.getElementById("text-bar").value !== "") {
+                    ws.send(JSON.stringify({
+                        username: username,  // ✅ Replace with actual logged-in user
+                        teamname: teamname,
+                        message: msgString
+                     })); // ✅ Send message via WebSocket
+                    storeToDB(msgString);
+                    document.getElementById("text-bar").value = msgString;
+                    sendMsg(username);
+                }
+            })
+            function uploadImage(blob){
+                const reader = new FileReader();
+                let newDiv = document.createElement('div');
+                let newDivImg = document.createElement('img');
+                
+                let url;
+                if (blob) {
+                    reader.onload = () => {
+                        url = reader.result;
+                        newDivImg.src = url;
+                        console.log(url);
+                        newDivImg.height = 150;
+                        newDiv.appendChild(newDivImg);
+                        newDiv.innerHTML += `<br><strong>${username}: </strong>`;
+                        newDiv.innerHTML += `${document.getElementById("text-bar").value}<small>${new Date().toISOString()}</small>`;
+                        console.log("✅ Image detected and processed!");
+                        document.getElementById("text-bar").value = newDiv.innerHTML;
+                        ws.send(JSON.stringify({
+                            username: username,  // ✅ Replace with actual logged-in user
+                            teamname: teamname,
+                            message: newDiv.innerHTML
+                        })); // ✅ Send message via WebSocket
+                        sendMsg(username);
+                        storeToDB(newDiv.innerHTML);
+                        // storeToDB(newDiv.innerHTML);
+                        event.preventDefault(); // ❌ Prevent default text paste
+                        scrollToBottom();
+                    }
+                    reader.onerror = () => {
+                        newDivImg.src = "../blue_camera_icon.png";
+                    }
+                    
+                    reader.readAsDataURL(blob); // 🔥 Convert blob to Base64
+                }
+                
+            }
+
             document.getElementById("text-bar").addEventListener("paste", (event) => {
                 const items = event.clipboardData.items;
 
@@ -185,6 +243,21 @@
             //     // document.getElementByClassName("custom-body").innnerText += "<br>";
             // });
             
+            document.getElementById("fileInput").addEventListener("change", (event) => {
+                const imagefile = event.target.files[0]; // 📂 Get first selected file
+                // const blob = new Blob([imagefile], {type: imagefile.type});
+                uploadImage(imagefile);
+                // if (file) {
+                //     console.log("✅ File selected:", file.name);
+                //     console.log("📏 File size:", file.size, "bytes");
+                //     console.log("🖼️ File type:", file.type);
+
+                //     // Process the file further (preview, upload, etc.)
+                // } else {
+                //     console.log("❌ No file selected.");
+                // }
+            });
+
             function generateDiv() {
                 var newDiv = document.createElement("div");
                 const message = document.getElementById("text-bar").value;
