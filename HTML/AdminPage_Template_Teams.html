@@ -182,7 +182,7 @@
 
             document.getElementById("fileInput").addEventListener("change", (event) => {
                 const imagefile = event.target.files[0]; // 📂 Get first selected file
-                const blob = new Blob([imagefile], {type: file.type});
+                const blob = new Blob([imagefile], {type: imagefile.type});
                 uploadImage(blob);
                 // if (file) {
                 //     console.log("✅ File selected:", file.name);
