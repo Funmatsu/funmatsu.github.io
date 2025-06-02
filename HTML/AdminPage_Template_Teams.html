@@ -44,6 +44,7 @@
                     <button id="upload-image" onclick="document.getElementById('fileInput').click();" >
                         <img id="add-image" src="../blue_camera_icon.png">
                     </button>
+                    <button id="send-msg">Send</button>
                 </div>
             </div>
             <div id="pop-up">
@@ -141,6 +142,9 @@
                 }
             });
 
+            document.getElementById("send-msg").addEventListener("click", () => {
+                sendMsg(username);
+            })
             function uploadImage(blob){
                 const url = URL.createObjectURL(blob);
                 let newDiv = document.createElement('div');
