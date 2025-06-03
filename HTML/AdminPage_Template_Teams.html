@@ -109,9 +109,9 @@
                 if(parsedMessage.teamname === teamname){
                     sendMsg();
                     if(parsedMessage.username === username)
-                    document.getElementById("text-bar").value = "";
+                    document.getElementById("text-bar").value = "t";
                     else
-                    document.getElementById("text-bar").value = tempTextBar + "t";
+                    document.getElementById("text-bar").value = tempTextBar;
                     scrollToBottom();
                 }                    
             };
