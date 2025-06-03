@@ -124,10 +124,10 @@
                         message: msgString
                      })); // ✅ Send message via WebSocket
                     storeToDB(msgString);
-                    let tempMsg = document.getElementById("text-bar").value;
+                    // let tempMsg = document.getElementById("text-bar").value;
                     document.getElementById("text-bar").value = msgString;
                     sendMsg(username);
-                    document.getElementById("text-bar").value = tempMsg;
+                    // document.getElementById("text-bar").value = tempMsg;
                 }
             });
 
